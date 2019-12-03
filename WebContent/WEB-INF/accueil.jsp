@@ -40,22 +40,32 @@
 <body>
 
 	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
-
+		<div class="container-home100">
+			<div class="flex-sb-m w-full p-b-48">
+				<span style="text-align: left" class="login100-form-title p-b-32">
+					ENI Enchères</span> 
+				<a href="<%=request.getContextPath()%>/connexion" class="txt1"> S'inscrire - Se connecter </a>
+			</div>
+			<div class="flex-sb-m w-full p-b-48">
+				<span style="text-align: center" class="login100-form-title p-b-32"> Liste des enchères
+				</span>
+			</div>
+			<div class="wrap-home100 p-l-85 p-r-85 p-t-55 p-b-55">
+			
 				<form method="post" action="/ProjetWebENI/ServletAccueil"
 					class="login100-form validate-form flex-sb flex-w">
-					<span class="login100-form-title p-b-32"> ENI Enchères -
-						Liste des enchères </span> <span class="txt1 p-b-11"> Filtres : </span>
+					<span class="login100-form-title p-b-32"> Filtres : </span>
 					<div class="wrap-input100 validate-input m-b-36">
-						<input style="text-align:right" type="search" name="search" placeholder="Le nom de l'article contient">
+						<i class="fa fa-search" aria-hidden="true"></i> <input
+							maxlength="50" type="search" name="search"
+							placeholder="Nom de l'article">
+
 					</div>
-					
+
 					<div class="flex-sb-m w-full p-b-48">
-					<span class="txt1 p-b-11"> Catégorie :</span>
-					
-						<span class="btn-show-pass"></span> 
-						<select name="thelist" onChange="combo(this, 'theinput')">
+						<span class="txt1 p-b-11"> Catégorie :</span> <span
+							class="btn-show-pass"></span> <select name="thelist"
+							onChange="combo(this, 'theinput')">
 							<option value="toutes">Toutes</option>
 							<option value="ameublement">Ameublement</option>
 							<option value="informatique">Informatique</option>
@@ -63,13 +73,6 @@
 							<option value="vetement">Vêtement</option>
 						</select> <span class="focus-input100"></span>
 
-					</div>
-
-					<div class="flex-sb-m w-full p-b-48">
-						<div class="contact100-form-checkbox">
-							<a href="<%=request.getContextPath()%>/connexion" class="txt3">
-								S'inscrire - Se connecter </a>
-						</div>
 					</div>
 
 					<div class="container-login100-form-btn">

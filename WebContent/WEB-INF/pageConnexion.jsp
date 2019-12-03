@@ -41,16 +41,19 @@
 
 	<div class="limiter">
 		<div class="container-login100">
+			<div class="flex-sb-m w-full p-b-48">
+				<span style="text-align: left" class="login100-form-title p-b-32">
+					ENI Enchères</span> 
+			</div>
 			<div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
-			
+
 				<form method="post" action="/ProjetWebENI/connexion"
-				
 					class="login100-form validate-form flex-sb flex-w">
-					<span class="login100-form-title p-b-32"> ENI Enchères - Se
-						connecter </span> <span class="txt1 p-b-11"> Identifiant </span>
+					<span class="login100-form-title p-b-32"> Se connecter </span> <span
+						class="txt1 p-b-11"> Identifiant </span>
 					<div class="wrap-input100 validate-input m-b-36"
 						data-validate="L'identifiant est requis">
-						<input class="input100" type="text" name="pseudo" > <span
+						<input class="input100" type="text" name="pseudo"> <span
 							class="focus-input100"></span>
 					</div>
 
@@ -81,12 +84,12 @@
 						<div class="container-login100-create-btn">
 							<button id="newAccount" class="login100-create-btn">Créer
 								un compte</button>
-								<script type="text/javascript">
+							<script type="text/javascript">
 								document.getElementById("newAccount").onclick = function() {
-									location.href = "http://localhost:8080/ProjetWebENI/creerUnCompte";
+									location.href = "http://localhost:8080/ProjetWebENI/ServletCreationCompte";
 								};
 							</script>
-							
+
 						</div>
 					</div>
 
