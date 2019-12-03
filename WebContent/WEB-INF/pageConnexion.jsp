@@ -42,21 +42,24 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
-				<form class="login100-form validate-form flex-sb flex-w">
+			
+				<form method="post" action="/ProjetWebENI/connexion"
+				
+					class="login100-form validate-form flex-sb flex-w">
 					<span class="login100-form-title p-b-32"> ENI Enchères - Se
-						connecter </span> <span class="txt1 p-b-11"> Identifiants </span>
+						connecter </span> <span class="txt1 p-b-11"> Identifiant </span>
 					<div class="wrap-input100 validate-input m-b-36"
-						data-validate="Username is required">
-						<input class="input100" type="text" name="username"> <span
+						data-validate="L'identifiant est requis">
+						<input class="input100" type="text" name="pseudo" > <span
 							class="focus-input100"></span>
 					</div>
 
 					<span class="txt1 p-b-11"> Mot de passe </span>
 					<div class="wrap-input100 validate-input m-b-12"
-						data-validate="Password is required">
+						data-validate="Le mot de passe est requis">
 						<span class="btn-show-pass"> <i class="fa fa-eye"></i>
-						</span> <input class="input100" type="password" name="pass"> <span
-							class="focus-input100"></span>
+						</span> <input class="input100" type="password" name="mot_de_passe">
+						<span class="focus-input100"></span>
 					</div>
 
 					<div class="flex-sb-m w-full p-b-48">
@@ -73,14 +76,19 @@
 
 					<div class="flex-sb-m w-full p-b-48">
 						<div class="container-login100-form-btn">
-							<button class="login100-form-btn">Connexion</button>
+							<button type="submit" class="login100-form-btn">Connexion</button>
 						</div>
 						<div class="container-login100-create-btn">
-							<button class="login100-create-btn">Créer un compte</button>
+							<button id="newAccount" class="login100-create-btn">Créer
+								un compte</button>
+								<script type="text/javascript">
+								document.getElementById("newAccount").onclick = function() {
+									location.href = "http://localhost:8080/ProjetWebENI/creerUnCompte";
+								};
+							</script>
+							
 						</div>
 					</div>
-
-
 
 				</form>
 			</div>

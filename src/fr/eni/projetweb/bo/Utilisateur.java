@@ -24,6 +24,7 @@ public class Utilisateur {
 	private String mot_de_passe;
 	private int credit;
 	private boolean administrateur;
+	public boolean valid;
 
 	public Utilisateur() {
 		
@@ -252,6 +253,12 @@ public class Utilisateur {
 		this.administrateur = administrateur;
 	}
 	
-	
+	public boolean isValid() {
+        return valid;
+	}
+
+     public void setValid(boolean newValid) {
+        valid = newValid;
+	}
 	
 }

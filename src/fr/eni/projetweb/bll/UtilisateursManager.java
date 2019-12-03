@@ -1,5 +1,6 @@
 package fr.eni.projetweb.bll;
 
+import fr.eni.projetweb.bo.Utilisateur;
 import fr.eni.projetweb.dal.UtilisateurDAO;
 import fr.eni.projetweb.dal.UtilisateurDAOJdbcImpl;
 
@@ -14,4 +15,9 @@ public class UtilisateursManager {
 		return daoUtilisateur.verifierUtilisateur(pseudo, mot_de_passe);
 
 	}
+	
+	public Utilisateur login(Utilisateur user) {
+		return daoUtilisateur.login(user);	
+	}
+
 }
