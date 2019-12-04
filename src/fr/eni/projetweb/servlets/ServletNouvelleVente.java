@@ -1,6 +1,7 @@
 package fr.eni.projetweb.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,19 +10,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.projetweb.bll.CategorieManager;
+import fr.eni.projetweb.bll.UtilisateursManager;
+import fr.eni.projetweb.bo.Utilisateur;
+
 /**
- * Servlet implementation class ServletListeEncheres
+ * Servlet implementation class ServletNouvelleVente
  */
-@WebServlet("/ServletListeEncheres")
-public class ServletListeEncheres extends HttpServlet {
+@WebServlet("/ServletNouvelleVente")
+public class ServletNouvelleVente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private CategorieManager categoriesManager;
+	private UtilisateursManager utilisateurManager;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletListeEncheres() {
-        super();
-        // TODO Auto-generated constructor stub
+    public ServletNouvelleVente() {
+    	 super();
+    	categoriesManager = new CategorieManager();
+    	utilisateurManager = new UtilisateursManager();
     }
 
 	/**
@@ -29,7 +38,14 @@ public class ServletListeEncheres extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/listeEncheres.jsp");
+		String pseudo = (String) request.getSession().getAttribute("pseudo");
+		
+		
+		
+		List<String> listCategories = categoriesManager.getCategories();
+		request.setAttribute("listCategories", listCategories);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/nouvelleVente.jsp");
 		rd.forward(request, response);
 	}
 

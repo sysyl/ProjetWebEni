@@ -38,22 +38,20 @@
 </head>
 
 <body>
+
 <div class="topnav">
-  <a class="active" href="#">ENI Enchères - Bonjour <%=request.getSession().getAttribute("pseudo")%></a>
-  <a href="<%=request.getContextPath()%>/ServletListeEncheres">Enchères</a>
-  <a href="<%=request.getContextPath()%>/ServletVendre">Vendre un article</a>
-  <a href="<%=request.getContextPath()%>/ServletProfil">Mon profil</a>
-  <a href="<%=request.getContextPath()%>/ServletAccueil">Déconnexion</a>  
+  <a class="active" href="<%=request.getContextPath()%>/ServletAccueilConnecte">ENI Enchères - Bonjour <%=request.getSession().getAttribute("pseudo")%></a>
+  <a href="<%=request.getContextPath()%>/ServletAccueil">Déconnexion</a> 
 </div>
 
 	<div class="limiter">
 		<div class="container-home100">
 			<div class="flex-sb-m w-full p-b-48">
-				<span style="text-align: center" class="login100-form-title p-b-32">
-					Liste des enchères </span>
+				<span style="text-align: center" class="login100-form-title p-b-32"> Liste des enchères
+				</span>
 			</div>
 			<div class="wrap-home100 p-l-85 p-r-85 p-t-55 p-b-55">
-
+			
 				<form method="post" action="/ProjetWebENI/ServletAccueil"
 					class="login100-form validate-form flex-sb flex-w">
 					<span class="login100-form-title p-b-32"> Filtres : </span>
@@ -76,59 +74,6 @@
 						</select> <span class="focus-input100"></span>
 
 					</div>
-
-
-					<div class="container-login100-form-btn">
-						<div class="flex-sb-m w-full p-b-48">
-
-							<input type="radio" id="achats" name="achats/ventes"
-								value="achats" checked> <label for="achats">Achats</label>
-
-							<input type="radio" id="ventes" name="achats/ventes"
-								value="ventes"> <label for="ventes">Mes ventes</label>
-						</div>
-						<fieldset>
-							<div class="flex-sb-m w-full p-b-48">
-								<input type="checkbox" id="enchereouverte" name="enchereouverte"
-									value="enchereouverte"> <label for="enchereouverte">Enchères
-									ouvertes</label>
-								<input type="checkbox" id="enchereencours" name="enchereencours"
-									value="enchereencours"> <label for="enchereencours">Mes
-									enchères en cours</label>
-								<input type="checkbox" id="enchereremporte"
-									name="enchereremporte" value="enchereremporte"> <label
-									for="enchereremporte">Mes enchères remportées</label>
-							</div>
-						</fieldset>
-
-					</div>
-					<!-- 					
-						
-							 <label for="enchereouverte">enchères
-								ouvertes</label> <input type="checkbox" id="enchereencours"
-								name="enchereencours" value="enchereencours">
-								 <label
-								for="enchereencours">mes enchères en cours</label>
-								
-								 <input type="checkbox" id="enchereremporte" name="enchereremporte"
-								value="enchereremporte"> <label for="enchereremporte">mes
-								enchères remportées</label>
-						</div>
-						<div class="container-login100-form-btn">
-							<input type="radio" id="ventes" name="achats/ventes"
-								value="ventes"> <label for="ventes">Mes ventes</label> <input
-								type="checkbox" id="venteencours" name="venteencours"
-								value="venteencours"> <label for="venteencours">mes
-								ventes en cours</label> <input type="checkbox" id="ventenondebute"
-								name="ventenondebute" value="ventenondebute"> <label
-								for="ventenondebute">ventes non débutées</label> <input
-								type="checkbox" id="ventetermine" name="ventetermine"
-								value="ventetermine"> <label for="ventetermine">ventes
-								terminées</label>
-
-						</div>
-
-					</div> -->
 
 					<div class="container-login100-form-btn">
 						<button type="submit" class="login100-form-btn">Rechercher</button>

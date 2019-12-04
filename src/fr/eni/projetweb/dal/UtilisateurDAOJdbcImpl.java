@@ -22,6 +22,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	public static final String SELECT_PSEUDOS = "SELECT pseudo FROM UTILISATEURS";
 	public static final String SELECT_EMAILS = "SELECT email FROM UTILISATEURS";
+	public static final String SELECT_ALL = "SELECT * FROM UTILISATEURS WHERE pseudo=?";
+	//public static final String UPDATE
 	
 	static {
 		try {
@@ -201,5 +203,32 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			throw new BusinessException();
 		}
 		return emails;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.projetweb.dal.UtilisateurDAO#selectAll(java.lang.String)
+	 */
+	@Override
+	public Utilisateur selectUser(String pseudo) throws BusinessException {
+		Utilisateur utilisateur = null;
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL);
+			pstmt.setString(1, pseudo);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				utilisateur = new Utilisateur(rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue") , rs.getInt("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"), rs.getBoolean("administrateur"));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatsDAL.REGLE_UTILISATEUR_ERREUR);
+			throw businessException;
+		}
+		return utilisateur;
 	}
 }

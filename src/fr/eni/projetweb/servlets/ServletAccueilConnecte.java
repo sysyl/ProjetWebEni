@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ServletListeEncheres
  */
-@WebServlet("/ServletListeEncheres")
-public class ServletListeEncheres extends HttpServlet {
+@WebServlet("/ServletAccueilConnecte")
+public class ServletAccueilConnecte extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletListeEncheres() {
+    public ServletAccueilConnecte() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,7 +29,9 @@ public class ServletListeEncheres extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/listeEncheres.jsp");
+//		String pseudo = (String)request.getSession().getAttribute("pseudo");
+//		request.setAttribute("pseudo", pseudo);
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/accueilConnecte.jsp");
 		rd.forward(request, response);
 	}
 

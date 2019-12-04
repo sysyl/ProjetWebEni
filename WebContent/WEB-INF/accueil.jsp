@@ -39,13 +39,13 @@
 
 <body>
 
+<div class="topnav">
+  <a class="active" href="#">ENI Enchères</a>
+  <a href="<%=request.getContextPath()%>/connexion">S'inscrire - Se connecter</a> 
+</div>
+
 	<div class="limiter">
 		<div class="container-home100">
-			<div class="flex-sb-m w-full p-b-48">
-				<span style="text-align: left" class="login100-form-title p-b-32">
-					ENI Enchères</span> 
-				<a href="<%=request.getContextPath()%>/connexion" class="txt1"> S'inscrire - Se connecter </a>
-			</div>
 			<div class="flex-sb-m w-full p-b-48">
 				<span style="text-align: center" class="login100-form-title p-b-32"> Liste des enchères
 				</span>

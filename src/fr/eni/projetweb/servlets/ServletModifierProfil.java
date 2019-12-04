@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ServletListeEncheres
+ * Servlet implementation class ServletModifierProfil
  */
-@WebServlet("/ServletListeEncheres")
-public class ServletListeEncheres extends HttpServlet {
+@WebServlet("/ServletModifierProfil")
+public class ServletModifierProfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletListeEncheres() {
+    public ServletModifierProfil() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,7 +29,7 @@ public class ServletListeEncheres extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/listeEncheres.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modifierProfil.jsp");
 		rd.forward(request, response);
 	}
 
@@ -37,7 +37,6 @@ public class ServletListeEncheres extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

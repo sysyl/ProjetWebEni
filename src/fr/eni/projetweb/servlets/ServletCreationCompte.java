@@ -62,7 +62,7 @@ public class ServletCreationCompte extends HttpServlet {
 		UtilisateursManager manager = new UtilisateursManager();
 		try {
 			manager.ajouterUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, confirmation);		
-			response.sendRedirect("/ProjetWebENI/ServletListeEncheres");
+			response.sendRedirect("/ProjetWebENI/ServletAccueilConnecte");
 			
 		} catch (BusinessException e) {
 			System.out.println("erreur");

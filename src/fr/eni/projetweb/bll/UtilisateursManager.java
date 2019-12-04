@@ -209,5 +209,15 @@ public class UtilisateursManager {
         }
         return generatedPassword;
 	}
+	
+	public Utilisateur afficherUtilisateur(String pseudo) {
+		Utilisateur utilisateur = null;
+		try {
+			utilisateur = daoUtilisateur.selectUser(pseudo);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		return utilisateur;
+	}
 
 }

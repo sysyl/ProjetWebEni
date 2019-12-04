@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<title>ENI ENCHERES</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Profil</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -37,71 +38,102 @@
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
 </head>
+<style>
+.input100 {
+	height: 40px;
+}
+
+.bouton {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	margin: auto;
+}
+</style>
 <body>
-
-<div class="topnav">
-  <a class="active" href="<%=request.getContextPath()%>/ServletAccueil">ENI Enchères</a>
-  <a href="<%=request.getContextPath()%>/ServletAccueil">Accueil</a>
-</div>
-
 	<div class="limiter">
 		<div class="container-login100">
-			<div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+			<div class="container bootstrap snippet"
+				style="background-color: #fff">
+				<div class="p-l-85 p-r-85 p-t-55 p-b-55">
 
-				<form method="post" action="/ProjetWebENI/connexion"
-					class="login100-form validate-form flex-sb flex-w">
-					<span class="login100-form-title p-b-32"> Se connecter </span> <span
-						class="txt1 p-b-11"> Identifiant </span>
-					<div class="wrap-input100 validate-input m-b-36"
-						data-validate="L'identifiant est requis">
-						<input class="input100" type="text" name="pseudo"> <span
-							class="focus-input100"></span>
-					</div>
-
-					<span class="txt1 p-b-11"> Mot de passe </span>
-					<div class="wrap-input100 validate-input m-b-12"
-						data-validate="Le mot de passe est requis">
-						<span class="btn-show-pass"> <i class="fa fa-eye"></i>
-						</span> <input class="input100" type="password" name="mot_de_passe">
-						<span class="focus-input100"></span>
-					</div>
-
-					<div class="flex-sb-m w-full p-b-48">
-						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox"
-								name="remember-me"> <label class="label-checkbox100"
-								for="ckb1"> Se souvenir de moi </label>
-						</div>
-
-						<div>
-							<a href="#" class="txt3"> Mot de passe oublié </a>
+					<div class="row">
+						<div class="col-sm-12">
+							<h1>
+								<span class="login100-form-title">Mon Profil </span>
+							</h1>
 						</div>
 					</div>
+					<hr>
 
-					<div class="flex-sb-m w-full p-b-48">
-						<div class="container-login100-form-btn">
-							<button type="submit" class="login100-form-btn">Connexion</button>
-						</div>
-						<div class="container-login100-create-btn">					
-							<button id="newAccount" class="login100-create-btn">Créer
-								un compte</button>
-							<script type="text/javascript">
-								document.getElementById("newAccount").onclick = function() {
-									location.href = "http://localhost:8080/ProjetWebENI/ServletCreationCompte";
-								};
-							</script>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<label for="pseudo"><span class="txt1 p-b-11">Pseudo
+								: ${user.pseudo}</span></label>
 
-						</div>
 					</div>
 
-				</form>
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<label for="nom"><span class="txt1 p-b-11">Nom :
+								${user.nom}</span></label>
+
+					</div>
+
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<label for="prenom"><span class="txt1 p-b-11">Prénom
+								: ${user.prenom}</span></label>
+
+					</div>
+
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<label for="email"><span class="txt1 p-b-11">E-mail
+								: ${user.email}</span></label>
+
+					</div>
+
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<label for="telephone"><span class="txt1 p-b-11">
+								Téléphone : ${user.telephone}</span></label>
+
+					</div>
+
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<label for="rue"><span class="txt1 p-b-11"> Rue :
+								${user.rue}</span></label>
+
+					</div>
+
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<label for="codepostal"><span class="txt1 p-b-11">Code
+								postal : ${user.codePostal}</span></label>
+
+					</div>
+
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<label for="ville"><span class="txt1 p-b-11">Ville
+								: ${user.ville}</span></label>
+
+					</div>
+					
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<label for="ville"><span class="txt1 p-b-11">Crédits
+								: ${user.credit}</span></label>
+
+					</div>
+
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="row">
+							<a class="login100-form-btn bouton"
+								href="<%=request.getContextPath()%>/ServletModifierProfil">
+								Modifier </a>
+						</div>
+					</div>
+					
+					
+				</div>
 			</div>
 		</div>
 	</div>
-
-
-	<div id="dropDownSelect1"></div>
-
 	<!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<!--===============================================================================================-->

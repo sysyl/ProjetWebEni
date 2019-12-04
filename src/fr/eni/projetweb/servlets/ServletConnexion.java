@@ -64,9 +64,11 @@ public class ServletConnexion extends HttpServlet {
 			if (user.isValid()) {
 
 				HttpSession session = request.getSession(true);
-				session.setAttribute("currentSessionUser", user);
+				session.setAttribute("pseudo", user.getPseudo());
+				
 				System.out.println("Connexion réussie");
-				response.sendRedirect("/ProjetWebENI/ServletListeEncheres");
+				response.sendRedirect("/ProjetWebENI/ServletAccueilConnecte");
+
 			}
 
 			else {

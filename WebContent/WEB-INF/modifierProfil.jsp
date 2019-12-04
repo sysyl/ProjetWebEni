@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="fr.eni.projetweb.messages.LecteurMessage" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Creation du compte utilisateur</title>
+<title>Modification du Profil</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -54,11 +53,6 @@
 	}	
 </style>
 <body>   <!-- col-xs-12 .col-sm-6 col-md-6 .col-lg-8 -->
-
-<div class="topnav">
-  <a class="active" href="<%=request.getContextPath()%>/ServletAccueil">ENI Enchères</a>
-  <a href="<%=request.getContextPath()%>/ServletAccueil">Accueil</a>
-</div>
 		
 <div class="limiter">				
 	<div class="container-login100">
@@ -68,7 +62,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<h1>
-							<span class="login100-form-title">Créer un compte </span>
+							<span class="login100-form-title">Modifier mon Profil </span>
 						</h1>
 					</div>
 				</div>
@@ -114,7 +108,7 @@
 					
 					<div class="row">	
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="prenom"><span class="txt1 p-b-11">Prénom :</span></label>
+							<label for="prenom"><span class="txt1 p-b-11">Pr�nom :</span></label>
 							<div class="wrap-input100 validate-input m-b-36" data-validate="Prenom est requis">
 								<input class="input100" type="text" name="prenom" id="prenom"  required
 								value="<%=request.getParameter("prenom")!=null?request.getParameter("prenom"):""%>">
@@ -135,7 +129,7 @@
 					
 					<div class="row">	
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="telephone"><span class="txt1 p-b-11"> Téléphone :</span></label>
+							<label for="telephone"><span class="txt1 p-b-11"> T�l�phone :</span></label>
 							<div class="wrap-input100 validate-input m-b-36">
 								<input class="input100" type="tel" name="telephone" id="telephone"
 								value="<%=request.getParameter("telephone")!=null?request.getParameter("telephone"):""%>">
@@ -175,10 +169,18 @@
 						</div>
 					</div>
 					
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<label for="password"><span class="txt1 p-b-11">Mot de passe actuel :</span></label>
+								<div class="wrap-input100 validate-input m-b-36" data-validate="Le mot de passe est requis">
+									<input class="input100" type="password" name="password" id="password" required>
+									<span class="focus-input100"></span>
+								</div>
+						</div>
+					
 					
 					<div class="row">	
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="password"><span class="txt1 p-b-11">Mot de passe :</span></label>
+							<label for="password"><span class="txt1 p-b-11">Nouveau mot de passe :</span></label>
 								<div class="wrap-input100 validate-input m-b-36" data-validate="Le mot de passe est requis">
 									<input class="input100" type="password" name="password" id="password" required>
 									<span class="focus-input100"></span>
@@ -197,12 +199,14 @@
 					<div class="row" >	
 						<div class="flex-sb-m w-full p-b-48" >
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-								<input type="submit" class="login100-form-btn" value="Créer" style="margin: auto">
+								<a class="login100-form-btn bouton">
+								Enregistrer
+								</a>
 							</div>		
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">			
 							<div class="row">
 								<a class="login100-form-btn bouton" href="<%=request.getContextPath()%>/ServletAccueil"> 
-								Annuler
+								Supprimer mon compte
 								</a>
 							</div>
 						</div>
