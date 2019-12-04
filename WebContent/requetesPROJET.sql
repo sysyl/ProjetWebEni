@@ -1,9 +1,18 @@
--- Script de crÃ©ation de la base de donnÃ©es ENCHERES
+-- Script de création de la base de données ENCHERES
 --   type :      SQL Server 2012
 --
 
+-- BDD -- 
+DROP DATABASE BDD_ENCHERES
+GO
 
+CREATE DATABASE BDD_ENCHERES COLLATE French_CI_AS
+GO
 
+USE BDD_ENCHERES
+GO
+
+-- CATEGORIES -- 
 CREATE TABLE CATEGORIES (
     no_categorie   INTEGER IDENTITY(1,1) NOT NULL,
     libelle        VARCHAR(30) NOT NULL
@@ -11,7 +20,7 @@ CREATE TABLE CATEGORIES (
 
 ALTER TABLE CATEGORIES ADD constraint categorie_pk PRIMARY KEY (no_categorie)
 
-
+-- ENCHERES -- 
 CREATE TABLE ENCHERES(	
 	no_article int NOT NULL,
 	date_enchere datetime NOT NULL,
@@ -19,18 +28,18 @@ CREATE TABLE ENCHERES(
 	no_utilisateur int NOT NULL
  )
 
-
-
+ -- RETRAITS -- 
 CREATE TABLE RETRAITS (
 	no_retrait       INTEGER IDENTITY(1,1) NOT NULL,
     rue              VARCHAR(30) NOT NULL,
-	--Modification du type : Un cp est limitÃ© Ã  5 char numÃ©riques
+	--Modification du type : Un cp est limité à 5 char numériques
     code_postal      NUMERIC(5) NOT NULL,  
     ville            VARCHAR(30) NOT NULL
 )
 
 ALTER TABLE RETRAITS ADD constraint retrait_pk PRIMARY KEY  (no_retrait)  
 
+ -- UTILISATEURS -- 
 CREATE TABLE UTILISATEURS (
     no_utilisateur   INTEGER IDENTITY(1,1) NOT NULL,
     pseudo           VARCHAR(30) NOT NULL,
@@ -49,7 +58,15 @@ CREATE TABLE UTILISATEURS (
 
 ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk PRIMARY KEY (no_utilisateur)
 
+-- colonne mot_de_passe modifiée car mot de passe hashé sur 32 caractères 
+ALTER TABLE UTILISATEURS ALTER COLUMN mot_de_passe VARCHAR(35); 
 
+-- contraites d'unicité pour empêcher l'ajout des doublons
+ALTER TABLE UTILISATEURS ADD CONSTRAINT ak_pseudo UNIQUE (pseudo); 
+ALTER TABLE UTILISATEURS ADD CONSTRAINT ak_email UNIQUE (email);
+
+
+-- VENDUS -- 
 CREATE TABLE ARTICLES_VENDUS (
     no_article                    INTEGER IDENTITY(1,1) NOT NULL,
     nom_article                   VARCHAR(30) NOT NULL,
@@ -63,15 +80,12 @@ CREATE TABLE ARTICLES_VENDUS (
 	no_retrait					  INTEGER NULL
 )
 
-
-
 ALTER TABLE ARTICLES_VENDUS ADD constraint articles_vendus_pk PRIMARY KEY (no_article)
 
 ALTER TABLE ENCHERES
     ADD CONSTRAINT encheres_utilisateur_fk FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
 ON DELETE NO ACTION 
     ON UPDATE no action 
-
 
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT articles_vendus_retrait_fk FOREIGN KEY ( no_retrait )

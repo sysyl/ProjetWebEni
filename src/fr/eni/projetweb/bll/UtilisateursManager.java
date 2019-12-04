@@ -1,5 +1,7 @@
 package fr.eni.projetweb.bll;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import fr.eni.projetweb.bo.Utilisateur;
@@ -18,21 +20,25 @@ public class UtilisateursManager {
 		return daoUtilisateur.verifierUtilisateur(pseudo, mot_de_passe);
 
 	}
-	
+	/**
+	 * Methode en charge d'inserer un nouveau compte utilisateur dans
+	 * la bdd apres la verification de contraintes
+	 * @param pseudo, nom, prenom, email, telephone, rue, 
+	 * @param codePostalS, ville, motDePasse confirmation
+	 * @throws BusinessException
+	 */
 	public void ajouterUtilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
 			String codePostalS, String ville, String motDePasse, String confirmation) throws BusinessException {
-	
-		System.out.println("je suis dans la bll"); //
+
 		BusinessException businessException = new BusinessException();
-		this.verifierChamps(pseudo, nom, prenom, email, rue, ville, businessException);
-		this.validerMotDePasse(motDePasse, confirmation, businessException);
-		int codePostal = this.verifierCodePostal(codePostalS, businessException);
+		verifierChamps(pseudo, nom, prenom, email, rue, ville, businessException);
 		verifierPseudoUnique(pseudo, businessException);
 		verifierEmailUnique(email, businessException);
+		String motDePasseHashe = validerMotDePasse(motDePasse, confirmation, businessException);
+		int codePostal = this.verifierCodePostal(codePostalS, businessException);
 		
 		if (!(businessException.hasErreurs())) {
-	
-			Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, 1, ville, motDePasse, 100, false); 
+			Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasseHashe, 100, false); 
 			daoUtilisateur.insertNewUser(utilisateur);
 				
 		} else {
@@ -42,7 +48,8 @@ public class UtilisateursManager {
 	}
 	
 	/**
-	 * Méthode en charge de
+	 * Methode en charge de verifier si 
+	 * l'email renseigne n'existe pas deja dans la bdd
 	 * @param email
 	 * @param businessException 
 	 */
@@ -55,14 +62,14 @@ public class UtilisateursManager {
 			}
 			
 		} catch (BusinessException e) {
-			e.getCause();
-			//TODO
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_RECUPERATION_BDD_ERREUR);
 		}
 		
 	}
 
 	/**
-	 * Méthode en charge de
+	 * Methode en charge de verifier si le pseudo renseigne
+	 * n'existe pas deja dans la bdd
 	 * @param pseudo
 	 * @param businessException 
 	 */
@@ -73,34 +80,30 @@ public class UtilisateursManager {
 				businessException.ajouterErreur(CodesResultatBLL.REGLE_PSEUDO_DUPLICATION_ERREUR);
 			}
 		} catch (BusinessException e) {
-			//TODO
-			e.getCause();
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_RECUPERATION_BDD_ERREUR);
 		}
-//		if(pseudo.equals(anObject))
 		
 	}
 
 	/**
-	 * Méthode en charge de
-	 * @param codePostalS
-	 * @return
+	 * Methode en charge de verifier si le code postal est compose de 5 chiffres
+	 * et de le transformer de String en int
+	 * @param String codePostalS
+	 * @return int codePostal 
 	 */
 	private int verifierCodePostal(String codePostalS, BusinessException businessException) {
-		
+		//accepte uniquement code postal compose de 5 chiffres
+		String  pattern = "^[0-9]{5}$";  	
 		int codePostal=0;
-		if (codePostalS == null || codePostalS.trim().length() == 0) {
+		
+		if(!codePostalS.trim().matches(pattern)){
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_CODE_POSTAL_NOM_ERREUR);		
-		}
-		else {
+		}else {
 			try {
 				codePostal = Integer.parseInt(codePostalS);
-				
-				if(codePostal == 0) {
-					businessException.ajouterErreur(CodesResultatBLL.REGLE_CODE_POSTAL_NULL);		
-				}
-				
+		
 			}catch(NumberFormatException e){
-				businessException.ajouterErreur(CodesResultatBLL.REGLE_CODE_POSTAL_FORMAT_ERREUR);		
+				businessException.ajouterErreur(CodesResultatBLL.REGLE_CODE_POSTAL_NOM_ERREUR);		
 			}
 		}
 		
@@ -108,27 +111,24 @@ public class UtilisateursManager {
 	}
 
 	/**
-	 * Méthode en charge de verifier si les champs renseignes sont vides
-	 * @param pseudo
-	 * @param nom
-	 * @param prenom
-	 * @param email
-	 * @param rue
-	 * @param codePostal
-	 * @param ville
+	 * Methode en charge de verifier si les champs renseignes sont vides
+	 * et de confirmer que le pseudo est une chaine alphanumerique
+	 * @param pseudo, nom, prenom, email, rue, codePostal, ville
 	 * @param businessException
 	 */
 	private void verifierChamps(String pseudo, String nom, String prenom, String email, String rue,
 		String ville, BusinessException businessException) {
-	
-		String  pattern = "^[a-zA-Z0-9]*$";  	
 		
+		// pour verifier si pseudo est une chaine alphanumerique
+		String  pattern = "^[a-zA-Z0-9]*$";  	
+
 		if (pseudo == null || pseudo.trim().length() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_PSEUDO_NOM_ERREUR);		
 		}
 		else if(!pseudo.matches(pattern)){
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_PSEUDO_ALPHANUMERIQUE_ERREUR);		
 		}
+		
 		if (nom == null || nom.trim().length() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_NOM_UTILISATEUR_NOM_ERREUR);		
 		}
@@ -149,28 +149,65 @@ public class UtilisateursManager {
 	}
 
 	/**
-	 * Méthode en charge de
+	 * Methode en charge de 
+	 * - verifier si le mot de passe a ete renseigne
+	 * - si le mot de passe et sa confirmation sont equivalents
+	 * - si tout va bien -> appel methode qui hashe le mdp
+	 * 	 pour l'inserer dans la bdd
 	 * 
 	 * @param motDePasse
 	 * @param confirmation
 	 * @param businessException
 	 */
-	private void validerMotDePasse(String motDePasse, String confirmation, BusinessException businessException) {
-
+	private String validerMotDePasse(String motDePasse, String confirmation, BusinessException businessException) {
+		
+		String generatedPassword = null;
+		
 		if (motDePasse == null || motDePasse.trim().length() == 0) {
 			businessException.ajouterErreur(CodesResultatBLL.REGLE_MOT_DE_PASSE_NOM_ERREUR);		
 		}
-		else {
-			
-			if (!motDePasse.equals(confirmation)) {
-				businessException.ajouterErreur(CodesResultatBLL.REGLE_MOTS_DE_PASSE_IDENTIQUES_NOM_ERREUR);
-			}
-			
+		
+		else if (!motDePasse.equals(confirmation)) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_MOTS_DE_PASSE_IDENTIQUES_NOM_ERREUR);
 		}
-		
-		
-		
-
+		else {
+			generatedPassword = hasherMotDePasse(motDePasse);
+		}
+		return generatedPassword;
+	}
+	
+	
+	/**
+	 * methode qui hash le mot de passe passe en parametre
+	 * 
+	 * @param passwordToHash
+	 * @return String mot de passe hashe
+	 */
+	public String hasherMotDePasse(String passwordToHash) {
+	
+		String generatedPassword = null;
+        try {
+            // Create MessageDigest instance for MD5
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            //Add password bytes to digest
+            md.update(passwordToHash.getBytes());
+            //Get the hash's bytes 
+            byte[] bytes = md.digest();
+            //This bytes[] has bytes in decimal format;
+            //Convert it to hexadecimal format
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            //Get complete hashed password in hex format
+            generatedPassword = sb.toString();
+        } 
+        catch (NoSuchAlgorithmException e) 
+        {
+            e.printStackTrace();
+        }
+        return generatedPassword;
 	}
 
 }

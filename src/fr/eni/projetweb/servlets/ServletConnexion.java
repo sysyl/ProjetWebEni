@@ -10,15 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.projetweb.bll.UtilisateursManager;
 import fr.eni.projetweb.bo.Utilisateur;
 import fr.eni.projetweb.dal.UtilisateurDAOJdbcImpl;
 
 /**
  * Servlet implementation class ServletListe
  */
-@WebServlet(urlPatterns = { "/connexion", "/creerUnCompte" })
+@WebServlet("/connexion")
 public class ServletConnexion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -47,15 +49,16 @@ public class ServletConnexion extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-
 			Utilisateur user = new Utilisateur();
 			UtilisateurDAOJdbcImpl userJDBC = new UtilisateurDAOJdbcImpl();
 
-			
-			
-			user.setPseudo(request.getParameter("pseudo"));
-			user.setMot_de_passe(request.getParameter("mot_de_passe"));
+			UtilisateursManager manager = new UtilisateursManager();
+			String mdp = request.getParameter("mot_de_passe");
+			String mdpHashe = manager.hasherMotDePasse(mdp);
 
+			user.setPseudo(request.getParameter("pseudo"));
+			user.setMot_de_passe(mdpHashe);
+			
 			user = userJDBC.login(user);
 
 			if (user.isValid()) {
@@ -73,6 +76,7 @@ public class ServletConnexion extends HttpServlet {
 		}
 
 		catch (Throwable theException) {
+			theException.printStackTrace();
 			System.out.println(theException);
 		}
 

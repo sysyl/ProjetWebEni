@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
@@ -131,12 +132,17 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	public void insertNewUser(Utilisateur utilisateur) throws BusinessException{
 		try (Connection con = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = con.prepareStatement(INSERT_NEW_USER, PreparedStatement.RETURN_GENERATED_KEYS);
-			System.out.println("je suis dans la DAL");
+		
 			stmt.setString(1, utilisateur.getPseudo());
 			stmt.setString(2, utilisateur.getNom());
 			stmt.setString(3, utilisateur.getPrenom());
 			stmt.setString(4, utilisateur.getEmail());
-			stmt.setString(5, utilisateur.getTelephone());
+		
+			if(utilisateur.getTelephone().trim().length() == 0)
+				stmt.setNull(5, Types.VARCHAR);
+			else
+				stmt.setString(5, utilisateur.getTelephone());
+
 			stmt.setString(6, utilisateur.getRue());
 			stmt.setInt(7, utilisateur.getCodePostal());
 			stmt.setString(8, utilisateur.getVille());
