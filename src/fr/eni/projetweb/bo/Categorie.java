@@ -24,11 +24,21 @@ public class Categorie {
 	
 	/**
 	 * Constructeur.
-	 * @param noCategorie
 	 * @param libelle
 	 */
 	public Categorie(String libelle) {
 		setLibelle(libelle);
+	}
+	
+	/**
+	 * Constructeur.
+	 * @param noCategorie
+	 * @param libelle
+	 */
+	public Categorie(int noCategorie, String libelle) {
+		this(libelle);
+		setNoCategorie(noCategorie);
+		
 	}
 
 	/**

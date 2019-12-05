@@ -55,10 +55,6 @@ public class ServletCreationCompte extends HttpServlet {
 		String motDePasse = request.getParameter("password").trim();
 		String confirmation = request.getParameter("confirmation").trim();
 		
-		System.out.println("pseudo " + pseudo);
-		System.out.println("nom " + nom);
-		System.out.println("email " + email);
-		System.out.println("codePostal " + codePostal);
 		UtilisateursManager manager = new UtilisateursManager();
 		try {
 			manager.ajouterUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, confirmation);		

@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.projetweb.bll.CategorieManager;
 import fr.eni.projetweb.bll.UtilisateursManager;
+import fr.eni.projetweb.bo.Categorie;
 import fr.eni.projetweb.bo.Utilisateur;
 
 /**
  * Servlet implementation class ServletNouvelleVente
  */
-@WebServlet("/ServletNouvelleVente")
-public class ServletNouvelleVente extends HttpServlet {
+@WebServlet("/ServletVendre")
+public class ServletVendre extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private CategorieManager categoriesManager;
@@ -27,7 +28,7 @@ public class ServletNouvelleVente extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletNouvelleVente() {
+    public ServletVendre() {
     	 super();
     	categoriesManager = new CategorieManager();
     	utilisateurManager = new UtilisateursManager();
@@ -37,14 +38,16 @@ public class ServletNouvelleVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//je recupere l'utilisateur pour pouvoir afficher 
+		//par defaut son adresse en tant qu'adresse de retrait.
+		int idUtilisateur = (int) request.getSession().getAttribute("idUtilisateur"); //TODO
+		Utilisateur utlisateur = utilisateurManager.afficherUtilisateur(idUtilisateur);
+		request.setAttribute("utilisateur", utlisateur);
 		
-		String pseudo = (String) request.getSession().getAttribute("pseudo");
-		
-		
-		
-		List<String> listCategories = categoriesManager.getCategories();
+		//recuperation de la liste de categories pour la liste deroulante
+		List<Categorie> listCategories = categoriesManager.getAllCategories();
 		request.setAttribute("listCategories", listCategories);
-		
+			
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/nouvelleVente.jsp");
 		rd.forward(request, response);
 	}

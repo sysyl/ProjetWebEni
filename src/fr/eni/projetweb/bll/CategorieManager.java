@@ -5,8 +5,10 @@ package fr.eni.projetweb.bll;
 
 import java.util.List;
 
+import fr.eni.projetweb.bo.Categorie;
 import fr.eni.projetweb.dal.CategorieDAO;
-import fr.eni.projetweb.dal.CategorieDAOJdbcImpl;
+import fr.eni.projetweb.dal.DAOFactory;
+import fr.eni.projetweb.dal.jdbc.CategorieDAOJdbcImpl;
 import fr.eni.projetweb.exceptions.BusinessException;
 
 /**
@@ -18,19 +20,32 @@ import fr.eni.projetweb.exceptions.BusinessException;
  */
 public class CategorieManager {
 	
-	private CategorieDAO categorieDAO = new CategorieDAOJdbcImpl();
+	private CategorieDAO categorieDAO;
 	
-	public List<String> getCategories() {
-		List<String> listCategories = null;
+	public CategorieManager() {
+		categorieDAO = DAOFactory.getCategorieDAO();
+	}
+	
+	public List<Categorie> getAllCategories() {
+		List<Categorie> listCategories = null;
 		try {
-			listCategories = categorieDAO.selectCategories();
+			listCategories = categorieDAO.selectAll();
 		} catch (BusinessException e) {
 			// TODO : ajouter code erreur
 			e.printStackTrace();
 		}
 		return listCategories;
-		
-		
+	}
+	
+	public Categorie getCategorie(int id) {
+		Categorie categorie = null;
+		try {
+			categorie = categorieDAO.selectCategorie(id);
+		} catch (BusinessException e) {
+			// TODO : ajouter code erreur
+			e.printStackTrace();
+		}
+		return categorie;
 	}
 
 }

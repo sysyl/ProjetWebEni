@@ -1,4 +1,4 @@
-package fr.eni.projetweb.dal;
+package fr.eni.projetweb.dal.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;

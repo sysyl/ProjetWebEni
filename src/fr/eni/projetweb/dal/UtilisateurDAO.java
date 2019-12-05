@@ -9,7 +9,7 @@ public interface UtilisateurDAO {
 	boolean verifierUtilisateur(String pseudo, String mot_de_passe);
 	Utilisateur login(Utilisateur user);
 	/**
-	 * Méthode en charge de
+	 * Mï¿½thode en charge de
 	 * @param utilisateur
 	 * @throws BusinessException 
 	 */
@@ -18,6 +18,16 @@ public interface UtilisateurDAO {
 	public List<String> selectPseudos(String pseudo) throws BusinessException;
 	public List<String> selectEmails(String email) throws BusinessException;
 	
-	public Utilisateur selectUser(String pseudo) throws BusinessException;
-
+	public Utilisateur selectUserByPseudo(String pseudo) throws BusinessException;
+	
+	public void updateUser(Utilisateur utilisateur) throws BusinessException;
+	/**
+	 * MÃ©thode en charge de
+	 * @param no_utilisateur
+	 * @return
+	 * @throws BusinessException
+	 */
+	public Utilisateur selectUserById(int no_utilisateur) throws BusinessException;
+	
+	public void deleteUser(Utilisateur utilisateur) throws BusinessException;
 }

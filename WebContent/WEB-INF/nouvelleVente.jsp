@@ -47,19 +47,43 @@
 	}
 	
 	.boutonUpload {
-		display: flex;
-	  	flex-direction: column;
-	  	justify-content: center;
-	  	text-align: center;
-	  	margin: left;
-	}	
+	
+		display : inline;
+		margin-left: 20px;
+		
+		padding: 5px 30px 5px 30px;
+		border-radius: 12px;
+		
+	  	
+	  
+	  	
+	}
+	.wrap-input100{
+		margin-bottom: 10px;
+	}
+	
+	textarea {
+	  width: 100%;
+	  height: 100px !important;
+	  padding: 12px 20px;
+	  box-sizing: border-box;
+	  resize: vertical; /* on peut aggrandir textearea que verticalement */
+	}
+	
+	fieldset {
+   
+    border:  1px solid #ccc;
+    
+    padding:  12px;
+
+}
 </style>
 <body>   <!-- col-xs-12 .col-sm-6 col-md-6 .col-lg-8 -->
 		
 <div class="limiter">				
 	<div class="container-login100">
-		<div class="container bootstrap snippet" style="background-color: #fff">
-		  <div class="p-l-85 p-r-85 p-t-55 p-b-55"> 
+		 <div class="container" style="background-color: #fff"> 
+		  <div class=" p-l-85 p-r-85 p-t-55 p-b-55"> 
 						
 				<div class="row">
 					<div class="col-sm-12">
@@ -87,28 +111,29 @@
 				
 				
 				<div class="row">
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 ">photo</div>
-					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 ">
+					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 ">photo</div>
+					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 ">
 					
-					<form class="form" action="<%=request.getContextPath()%>/ServletVente" method="post">
+					<form class="form" action="<%=request.getContextPath()%>/ServletEnregistrementVente" method="post">
 					
 						<div class="row">
 							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 								<label for="nom_article"><span class="txt1 p-b-11">Article :</span></label>
-								<div class="wrap-input100 validate-input m-b-36">
-									<input class="input100" type="text" name="nom_article" id="nom_article" required 
-										  	value="<%=request.getParameter("nom_article")!=null?request.getParameter("nom_article"):""%>">
+								<div class="wrap-input100 ">
+									<input class="input100" type="text" name="nom_article" id="nom_article" required autofocus>
 									<span class="focus-input100"></span>
 								</div>
 							</div>
 						</div>
 						
+						
+						
 						<div class="row">
 								<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 								<label for="description"><span class="txt1 p-b-11">Description :</span></label>
-								<div class="wrap-input100 validate-input m-b-36">
-									<textarea rows="300" cols="100" class="input100"  name="description" id="description" >
-										<%=request.getParameter("description")!=null?request.getParameter("description"):""%> 
+									<div class="wrap-input100 ">
+									<textarea class="input100"  name="description" id="description">
+										
 									</textarea>
 									<span class="focus-input100"></span>
 								</div>
@@ -117,70 +142,78 @@
 						
 						
 						
-					<div class="row">
-						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+					<div class="row" style="margin: 10px 0 10px 0">
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" >
 							<span class="txt1 p-b-11"> Catégorie :</span> 
 							<span class="btn-show-pass"></span> 
 							<select name="categorie"
-								onChange="combo(this, 'theinput')">
+								onChange="combo(this, 'theinput')" style="margin-left : 15px; margin-bottom : 25px ;width: 150px;">
 								<c:if test="${!empty listCategories}">
 									<c:forEach var="c" items="${listCategories}">
-										<option value="${c}">${c}</option>
+										<option value="${c.noCategorie}" >${c.libelle}</option>
 									</c:forEach>
 								</c:if>
 							</select> <span class="focus-input100"></span>
 						</div>	
-					</div>
 					
-					<!--  
-					<div class="row">	
-					<span class="txt1 p-b-11">Photo de l'article :</span>
-						<a class="login100-form-btn boutonUpload" href="<%=request.getContextPath()%>/ServletAccueil"> 
-									Uploader
-									</a>
-					</div>
-					-->
-					<div class="row">	
-						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-								<label for="mise_prix"><span class="txt1 p-b-11">Mise à prix :</span></label>
-								<div class="wrap-input100 validate-input m-b-36  col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					
+						
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="display: flex">
+								<label for="mise_prix"><span class="txt1 p-b-11" style="margin-right: 10px">Mise à prix :</span></label>
+								<div class="wrap-input100  col-xs-7 col-sm-7 col-md-7 col-lg-7" style="height: 37px">
 									<input type="number" class="input100"  name="mise_prix" id="mise_prix" min="0" max="10000" step="1" value="150">
 									<span class="focus-input100"></span>
 								</div>
 							</div>
 					</div>
+					
+					
+					<div class="row">	
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="margin-bottom: 25px; text-align: center;">
+					<!-- <span class="txt1 p-b-11">Photo de l'article :</span>  
+						<div class="col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-lg-6  " style="background-color: yellow">  </div>-->
+							<a class="login100-form-btn boutonUpload" href="<%=request.getContextPath()%>/ServletAccueil"> 
+										Uploader une photo</a>
+						
+					</div>
+					</div>
+					
+					
 						
 					<div class="row">
-						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<label for="date_debut"><span class="txt1 p-b-11">Début de l'enchère :</span></label>
-							<div class="wrap-input100 validate-input m-b-36">
-								<input class="input100" type="date" name="date_debut" id="date_debut" required>
+							<div class="wrap-input100  col-xs-7 col-sm-7 col-md-7 col-lg-7">
+								<input class="input100" type="datetime-local" name="date_debut" id="date_debut" required>
 								<span class="focus-input100"></span>
 							</div>
 						</div>
 					</div>
 					
 					<div class="row">
-						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<label for="date_fin"><span class="txt1 p-b-11">Fin de l'enchère :</span></label>
-							<div class="wrap-input100 validate-input m-b-36">
-								<input class="input100" type="date" name="date_fin" id="date_fin" required>
+							<div class="wrap-input100 col-xs-7 col-sm-7 col-md-7 col-lg-7">
+								<input class="input100" type="datetime-local" name="date_fin" id="date_fin" required>
 								<span class="focus-input100"></span>
 							</div>
 						</div>
 					</div>	
 					
+					
 					<div class="row">
-						<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-							<fieldset>
-								 <legend>Retrait</legend>
+						<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+							
+								 <fieldset style="margin: 10px 0 25px 0">
+								 <legend class="txt1 p-b-11" style="font-size: 16px">
+								 Retrait
+								 </legend>
 								 	<div class="row">
 										<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 											<label for="rue"><span class="txt1 p-b-11">Rue :</span></label>
-												<div class="wrap-input100 validate-input m-b-36">
+												<div class="wrap-input100 ">
 													<input class="input100" type="text" name="rue" id="rue" required 
-														  	value="<%=request.getParameter("rue")!=null?request.getParameter("rue"):""%>">
-														  	<!-- par defaut, le retrait est effectue à l'adresse du vendeur -->
+														  	value="${utilisateur.rue}">
 													<span class="focus-input100"></span>
 												</div>
 										</div>
@@ -189,10 +222,9 @@
 									<div class="row">
 										<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 											<label for="code_postal"><span class="txt1 p-b-11">Code postal :</span></label>
-												<div class="wrap-input100 validate-input m-b-36">
+												<div class="wrap-input100 ">
 													<input class="input100" type="text" name="code_postal" id="code_postal" required 
-														  	value="<%=request.getParameter("code_postal")!=null?request.getParameter("code_postal"):""%>">
-														  	<!-- par defaut, le retrait est effectue à l'adresse du vendeur -->
+														  	value="${utilisateur.codePostal}">
 													<span class="focus-input100"></span>
 												</div>
 										</div>
@@ -201,21 +233,20 @@
 									<div class="row">
 										<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 											<label for="ville"><span class="txt1 p-b-11">Ville :</span></label>
-												<div class="wrap-input100 validate-input m-b-36">
-													<input class="input100" type="text" name="ville" id="ville" required 
-														  	value="<%=request.getParameter("ville")!=null?request.getParameter("ville"):""%>">
-														  	<!-- par defaut, le retrait est effectue à l'adresse du vendeur -->
+												<div class="wrap-input100 ">
+													<input  class="input100" type="text" name="ville" id="ville" required 
+														  	value="${utilisateur.ville}">
 													<span class="focus-input100"></span>
 												</div>
 										</div>
 									</div>
-							</fieldset>
+						</fieldset>
 						</div>
 					</div>
 					
 					<div class="row" >	
-						<div class="flex-sb-m w-full p-b-48" >
-							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="flex-sb-m w-full p-b-48">
+							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"  >
 								<input type="submit" class="login100-form-btn" value="Enregistrer" style="margin: auto">
 							</div>		
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">			
@@ -240,7 +271,7 @@
 				
 				
 			</div>
-		</div>
+	 	</div> 
 	
 
 </div>

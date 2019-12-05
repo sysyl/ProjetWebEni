@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.projetweb.bll.MethodesUtiles;
 import fr.eni.projetweb.bll.UtilisateursManager;
 import fr.eni.projetweb.bo.Utilisateur;
-import fr.eni.projetweb.dal.UtilisateurDAOJdbcImpl;
+import fr.eni.projetweb.dal.DAOFactory;
+import fr.eni.projetweb.dal.UtilisateurDAO;
+import fr.eni.projetweb.dal.jdbc.UtilisateurDAOJdbcImpl;
 
 /**
  * Servlet implementation class ServletListe
@@ -50,11 +53,12 @@ public class ServletConnexion extends HttpServlet {
 
 		try {
 			Utilisateur user = new Utilisateur();
-			UtilisateurDAOJdbcImpl userJDBC = new UtilisateurDAOJdbcImpl();
+			UtilisateurDAO userJDBC = DAOFactory.getUtilisateurDAO();
+			//	UtilisateurDAOJdbcImpl userJDBC = new UtilisateurDAOJdbcImpl();
 
 			UtilisateursManager manager = new UtilisateursManager();
 			String mdp = request.getParameter("mot_de_passe");
-			String mdpHashe = manager.hasherMotDePasse(mdp);
+			String mdpHashe = MethodesUtiles.hasherMotDePasse(mdp);
 
 			user.setPseudo(request.getParameter("pseudo"));
 			user.setMot_de_passe(mdpHashe);
@@ -64,9 +68,10 @@ public class ServletConnexion extends HttpServlet {
 			if (user.isValid()) {
 
 				HttpSession session = request.getSession(true);
+				session.setAttribute("idUtilisateur", user.getNoUtilisateur());
 				session.setAttribute("pseudo", user.getPseudo());
 				
-				System.out.println("Connexion réussie");
+				System.out.println("Connexion rï¿½ussie");
 				response.sendRedirect("/ProjetWebENI/ServletAccueilConnecte");
 
 			}

@@ -7,7 +7,7 @@ package fr.eni.projetweb.bo;
  * Classe en charge de 
  * @version Projet 1 - V1.0
  * @author euznansk2019
- * @date 2 déc. 2019 - 14:28:44
+ * @date 2 dï¿½c. 2019 - 14:28:44
  *
  */
 public class Utilisateur {
@@ -57,6 +57,13 @@ public class Utilisateur {
 		this.mot_de_passe = mot_de_passe;
 		this.credit = credit;
 		this.administrateur = administrateur;
+	}
+	
+	public Utilisateur(int idUser, String pseudo, String nom, String prenom, String email, String telephone, String rue,
+			int codePostal, String ville, String mot_de_passe, int credit, boolean administrateur) {
+		
+		this(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, mot_de_passe, credit, administrateur);
+		setNoUtilisateur(idUser);
 	}
 
 	/**

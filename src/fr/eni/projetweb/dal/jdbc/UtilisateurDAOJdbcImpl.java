@@ -1,4 +1,4 @@
-package fr.eni.projetweb.dal;
+package fr.eni.projetweb.dal.jdbc;
 
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -7,11 +7,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Types;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
 import fr.eni.projetweb.bo.Utilisateur;
+import fr.eni.projetweb.dal.CodesResultatDAL;
 import fr.eni.projetweb.dal.UtilisateurDAO;
 import fr.eni.projetweb.exceptions.BusinessException;
 
@@ -22,8 +24,11 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	public static final String SELECT_PSEUDOS = "SELECT pseudo FROM UTILISATEURS";
 	public static final String SELECT_EMAILS = "SELECT email FROM UTILISATEURS";
-	public static final String SELECT_ALL = "SELECT * FROM UTILISATEURS WHERE pseudo=?";
-	//public static final String UPDATE
+	public static final String SELECT_ALL_BY_PSEUDO = "SELECT * FROM UTILISATEURS WHERE pseudo=?";
+	public static final String SELECT_ALL_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur=?";
+	public static final String UPDATE_USER = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? WHERE pseudo=?";
+	public static final String DELETE_USER = "DELETE FROM UTILISATEUR WHERE pseudo=?";
+	
 	
 	static {
 		try {
@@ -205,30 +210,92 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		return emails;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.projetweb.dal.UtilisateurDAO#selectAll(java.lang.String)
-	 */
 	@Override
-	public Utilisateur selectUser(String pseudo) throws BusinessException {
+	public Utilisateur selectUserByPseudo(String pseudo) throws BusinessException {
 		Utilisateur utilisateur = null;
 		try(Connection cnx = ConnectionProvider.getConnection())
 		{
-			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL);
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_BY_PSEUDO);
 			pstmt.setString(1, pseudo);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next())
 			{
-				utilisateur = new Utilisateur(rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue") , rs.getInt("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"), rs.getBoolean("administrateur"));
+				utilisateur = new Utilisateur(rs.getInt("no_utilisateur"),rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue") , rs.getInt("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"), rs.getBoolean("administrateur"));
 			}
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatsDAL.REGLE_UTILISATEUR_ERREUR);
+			businessException.ajouterErreur(CodesResultatDAL.REGLE_UTILISATEUR_ERREUR);
 			throw businessException;
 		}
 		return utilisateur;
+	}
+	
+	@Override
+	public Utilisateur selectUserById(int noUtilisateur) throws BusinessException {
+		Utilisateur utilisateur = null;
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL_BY_ID);
+			pstmt.setInt(1, noUtilisateur);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				utilisateur = new Utilisateur(rs.getInt("no_utilisateur"),rs.getString("pseudo"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue") , rs.getInt("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"), rs.getBoolean("administrateur"));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.REGLE_UTILISATEUR_ERREUR);
+			throw businessException;
+		}
+		return utilisateur;
+	}
+	
+	@Override
+	public void updateUser(Utilisateur utilisateur) throws BusinessException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER);
+			pstmt.setString(1, utilisateur.getPseudo());
+			pstmt.setString(2, utilisateur.getNom());
+			pstmt.setString(3, utilisateur.getPrenom());
+			pstmt.setString(1, utilisateur.getPseudo());
+			pstmt.setString(4, utilisateur.getEmail());
+			pstmt.setString(5, utilisateur.getTelephone());
+			pstmt.setString(6, utilisateur.getRue());
+			pstmt.setInt(7, utilisateur.getCodePostal());
+			pstmt.setString(8, utilisateur.getVille());
+			pstmt.setString(9, utilisateur.getMot_de_passe());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.UPDATE_USER_ERREUR);
+			throw businessException;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.projetweb.dal.UtilisateurDAO#deleteUser(fr.eni.projetweb.bo.Utilisateur)
+	 */
+	@Override
+	public void deleteUser(Utilisateur utilisateur) throws BusinessException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement pstmt = cnx.prepareStatement(DELETE_USER);
+			pstmt.setInt(1, utilisateur.getNoUtilisateur());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.DELETE_USER_ERREUR);
+			throw businessException;
+		}
+		
 	}
 }

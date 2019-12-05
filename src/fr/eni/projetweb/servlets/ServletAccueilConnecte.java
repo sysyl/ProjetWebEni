@@ -39,7 +39,17 @@ public class ServletAccueilConnecte extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		String search = request.getParameter("search");
+		String category = request.getParameter("thelist");
+		String achats = request.getParameter("achat"); 
+		String ventes = request.getParameter("vente");
+		
+		System.out.println(search);
+		System.out.println(category);
+		System.out.println(achats);
+		System.out.println(ventes);
+		
 		doGet(request, response);
 	}
 

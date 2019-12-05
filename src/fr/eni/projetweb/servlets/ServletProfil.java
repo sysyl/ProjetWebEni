@@ -32,14 +32,12 @@ public class ServletProfil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
-		
-		String pseudo = (String)request.getSession().getAttribute("pseudo");		
+		int idUtilisateur = (int)request.getSession().getAttribute("idUtilisateur");		
 		
 		Utilisateur user = new Utilisateur();
 		UtilisateursManager UserManager = new UtilisateursManager();
 		
-		user = UserManager.afficherUtilisateur(pseudo);
+		user = UserManager.afficherUtilisateur(idUtilisateur);
 		
 		request.setAttribute("user", user);
 		
