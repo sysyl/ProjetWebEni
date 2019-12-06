@@ -20,7 +20,31 @@ import fr.eni.projetweb.exceptions.BusinessException;
  */
 public class MethodesUtiles {
 
+	/**
+	 * methode qui convertit un String en int
+	 * @param string nombre
+	 * @return int nombre
+	 */
+	public static int parseStringToInt(String string) {
+		int nombre = Integer.parseInt(string);
+		return nombre;
+	}
 	
+	/**
+	 * Méthode en charge de verifier si le string passe
+	 * en param est vide ou pas
+	 * @param String string
+	 * @param businessException
+	 */
+	public static void verifierChampVide(String string, BusinessException businessException) {
+		if (string == null || string.trim().length() == 0) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_CHAMP_VIDE_ERREUR);		
+		}
+	}
+	
+	/**
+	 * methode qui permet de verifier la validite des champs composant une adresse : rue, codepostal, ville 
+	 */
 	public static int verifierAdresse(String rue, String ville, String codePostalS, BusinessException businessException) {
 		
 		if (rue == null || rue.trim().length() == 0) {
@@ -147,19 +171,6 @@ public class MethodesUtiles {
             e.printStackTrace();
         }
         return generatedPassword;
-	}
-
-
-	/**
-	 * Méthode en charge de verifier si le string passe
-	 * en param est vide ou pas
-	 * @param String string
-	 * @param businessException
-	 */
-	public static void verifierChampVide(String string, BusinessException businessException) {
-		if (string == null || string.trim().length() == 0) {
-			businessException.ajouterErreur(CodesResultatBLL.REGLE_NOM_UTILISATEUR_NOM_ERREUR);		
-		}
 	}
 	
 

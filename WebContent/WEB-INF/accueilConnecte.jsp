@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="UTF-8"%>
+<%@ page import="fr.eni.projetweb.messages.LecteurMessage"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="fr.eni.projetweb.bo.Article"%>
+<%@page import="fr.eni.projetweb.bo.Utilisateur"%>
+<%@page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,46 +48,48 @@
 
 <body>
 	<div class="topnav">
-		<a class="active" href="#">ENI EnchËres - Bonjour <%=request.getSession().getAttribute("pseudo")%></a>
-		<a href="<%=request.getContextPath()%>/ServletListeEncheres">EnchËres</a>
+		<a class="active" href="#">ENI Ench√®res - Bonjour <%=request.getSession().getAttribute("pseudo")%></a>
+		<a href="<%=request.getContextPath()%>/ServletListeEncheres">Ench√®res</a>
 		<a href="<%=request.getContextPath()%>/ServletVendre">Vendre un
 			article</a> <a href="<%=request.getContextPath()%>/ServletProfil">Mon
-			profil</a> <a href="<%=request.getContextPath()%>/ServletAccueil">DÈconnexion</a>
+			profil</a> <a href="<%=request.getContextPath()%>/ServletAccueil">D√©connexion</a>
 	</div>
 
-	<div class="limiter">
-		<div class="container-home100">
-			<div class="flex-sb-m w-full p-b-48">
-				<span style="text-align: center" class="login100-form-title p-b-32">
-					Liste des enchËres </span>
-			</div>
-			<div class="wrap-home100 p-l-85 p-r-85 p-t-55 p-b-55">
 
-				<form method="post" action="/ProjetWebENI/ServletAccueilConnecte"
-					class="login100-form validate-form flex-sb flex-w">
-					<span class="login100-form-title p-b-32"> Filtres : </span>
-					<div class="wrap-input100 validate-input m-b-36">
-						<i class="fa fa-search" aria-hidden="true"></i> <input
-							maxlength="50" type="search" name="search"
-							placeholder="Nom de l'article">
+	<div class="container-home100">
 
-					</div>
+		<span style="text-align: center;" class="login100-form-title p-b-32">
+			Liste des ench√®res </span>
 
-					<div class="flex-sb-m w-full p-b-48">
-						<span class="txt1 p-b-11"> CatÈgorie :</span> <span
-							class="btn-show-pass"></span> <select name="thelist"
-							onChange="combo(this, 'theinput')">
-							<option value="toutes">Toutes</option>
-							<option value="ameublement">Ameublement</option>
-							<option value="informatique">Informatique</option>
-							<option value="sportLoisirs">Sport et Loisirs</option>
-							<option value="vetement">VÍtement</option>
-						</select> <span class="focus-input100"></span>
+		<div class="row">
+			<div class="col-md-6">
 
-					</div>
+				<div class="wrap-home100 p-l-85 p-r-85 p-t-55 p-b-55">
+
+					<form method="post" action="/ProjetWebENI/ServletAccueilConnecte"
+						class="login100-form validate-form flex-sb flex-w">
+						<span class="login100-form-title p-b-32"> Filtres : </span>
+						<div class="wrap-input100 validate-input m-b-36">
+							<i class="fa fa-search" aria-hidden="true"></i> <input
+								maxlength="50" type="search" name="search"
+								placeholder="Nom de l'article">
+						</div>
+
+						<div class="flex-sb-m w-full p-b-48">
+							<p>Cat√©gorie :</p>
+							<span class="btn-show-pass"></span> <select name="categorie"
+								onChange="combo(this, 'theinput')"
+								style="margin-left: 15px; margin-bottom: 25px; width: 150px;">
+								<option value="toutes">Toutes</option>
+								<c:if test="${!empty listCategories}">
+									<c:forEach var="c" items="${listCategories}">
+										<option value="${c.noCategorie}">${c.libelle}</option>
+									</c:forEach>
+								</c:if>
+							</select> <span class="focus-input100"></span>
+						</div>
 
 
-					<div class="container">
 						<div class="flex-sb-m w-full p-b-48">
 							<label> <input type="checkbox" name="achats" checked
 								value="achats" id="achats"> <span class="label-text"
@@ -93,23 +100,24 @@
 									ventes</span>
 							</label>
 						</div>
+
 						<div class="col-md-6">
 							<div class="form-check">
 								<label> <input type="checkbox" name="achat"
 									value="enchereouverte" id="enchereouverte"> <span
-									class="label-text">EnchËres ouvertes</span>
+									class="label-text">Ench√®res ouvertes</span>
 								</label>
 							</div>
 							<div class="form-check">
 								<label> <input type="checkbox" name="achat"
 									value="enchereencours" id="enchereencours"> <span
-									class="label-text">Mes enchËres en cours</span>
+									class="label-text">Mes ench√®res en cours</span>
 								</label>
 							</div>
 							<div class="form-check">
 								<label> <input type="checkbox" name="achat"
 									value="enchereremporte" id="enchereremporte"> <span
-									class="label-text">Mes enchËres remportÈes</span>
+									class="label-text">Mes ench√®res remport√©es</span>
 								</label>
 							</div>
 
@@ -124,30 +132,70 @@
 							<div class="form-check">
 								<label> <input type="checkbox" name="vente"
 									value="ventenondebute" disabled id="ventenondebute"> <span
-									class="label-text">Ventes non dÈbutÈes</span>
+									class="label-text">Ventes non d√©but√©es</span>
 								</label>
 							</div>
 							<div class="form-check">
 								<label> <input type="checkbox" name="vente"
 									value="ventetermine" disabled id="ventetermine"> <span
-									class="label-text">Ventes terminÈes</span>
+									class="label-text">Ventes termin√©es</span>
 								</label>
 							</div>
-
 						</div>
-					</div>
 
-					<div class="container-login100-form-btn">
-						<button type="submit" class="login100-form-btn">Rechercher</button>
-					</div>
-
-				</form>
+						<div class="container-login100-form-btn">
+							<button type="submit" class="btn btn-success">Rechercher</button>
+						</div>
+					</form>
+				</div>
 			</div>
+
+			<div class="col-md-6">
+
+
+				<%
+					List<Article> listeArticle = (List<Article>) session.getAttribute("listeArticle");
+					List<String> listePseudoUtilisateurs = (List<String>) session.getAttribute("listePseudo");
+				%>
+
+				<div class="container-fluid">
+					<div class="row">
+						<%
+							int i = 0;
+							for (Article article : listeArticle) {
+						%>
+
+
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title"><%=article.getNomArticle()%></h5>
+									<p class="card-text">
+										Prix:<%=article.getPrixVente()%></p>
+									<p class="card-text">
+										Fin de l'ench√®re:<%=article.getFinEncheres()%></p>
+									<p class="card-text">
+										Vendeur:<a
+											href="<%=request.getContextPath()%>/ServletAfficheUser?id=<%=listeArticle.get(i).getNoUtilisateur()%>"
+											name="<%=listePseudoUtilisateurs.get(i)%>"><%=listePseudoUtilisateurs.get(i)%></a>
+									</p>
+									<a href="#" class="btn btn-success">Voir l'ench√®re</a>
+								</div>
+							</div>
+						</div>
+
+						<%
+							i++;
+							}
+						%>
+					</div>
+				</div>
+			</div>
+
 		</div>
+
 	</div>
 
-
-	<div id="dropDownSelect1"></div>
 
 	<!--===============================================================================================-->
 	<script type="text/javascript">
@@ -165,10 +213,10 @@
 		function setVente() {
 			document.getElementById("enchereouverte").disabled = true;
 			document.getElementById("venteencours").disabled = false;
-			
+
 			document.getElementById("enchereencours").disabled = true;
 			document.getElementById("ventenondebute").disabled = false;
-			
+
 			document.getElementById("enchereremporte").disabled = true;
 			document.getElementById("ventetermine").disabled = false;
 
@@ -177,10 +225,10 @@
 		function setAchat() {
 			document.getElementById("venteencours").disabled = true;
 			document.getElementById("enchereencours").disabled = false;
-			
+
 			document.getElementById("ventenondebute").disabled = true;
 			document.getElementById("enchereouverte").disabled = false;
-			
+
 			document.getElementById("ventetermine").disabled = true;
 			document.getElementById("enchereremporte").disabled = false;
 		}
@@ -202,8 +250,8 @@
 	<!--===============================================================================================-->
 	<script src="js/main.js"></script>
 	<!--===============================================================================================-->
-	<script
-		src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<!-- 	<script
+		src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 </body>

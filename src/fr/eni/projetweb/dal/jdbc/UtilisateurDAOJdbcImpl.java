@@ -26,8 +26,11 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	public static final String SELECT_EMAILS = "SELECT email FROM UTILISATEURS";
 	public static final String SELECT_ALL_BY_PSEUDO = "SELECT * FROM UTILISATEURS WHERE pseudo=?";
 	public static final String SELECT_ALL_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur=?";
-	public static final String UPDATE_USER = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? WHERE pseudo=?";
-	public static final String DELETE_USER = "DELETE FROM UTILISATEUR WHERE pseudo=?";
+	public static final String UPDATE_USER = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? WHERE no_utilisateur=?";
+	public static final String DELETE_USER = "DELETE FROM UTILISATEURS WHERE no_utilisateur=?";
+	public static final String SELECT_PSEUDOS_EXCEPT_USER_ID = "SELECT pseudo FROM UTILISATEURS WHERE no_utilisateur<>?";
+
+	public static final String SELECT_EMAILS_EXCEPT_USER_ID = "SELECT email FROM UTILISATEURS WHERE no_utilisateur<>?";
 	
 	
 	static {
@@ -90,11 +93,12 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			// if user exists set the isValid variable to true
 			else if (more) {
 				String firstName = rs.getString("prenom");
-				String lastName = rs.getString("nom");
+				String lastName = rs.getString("nom");	
 
 				System.out.println("Bienvenu " + firstName);
 				user.setPrenom(firstName);
 				user.setNom(lastName);
+				user.setNoUtilisateur(rs.getInt("no_utilisateur"));
 				user.setValid(true);
 			}
 		}
@@ -255,7 +259,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		}
 		return utilisateur;
 	}
-	
+	// UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? WHERE pseudo=?"
 	@Override
 	public void updateUser(Utilisateur utilisateur) throws BusinessException {
 		try(Connection cnx = ConnectionProvider.getConnection())
@@ -264,13 +268,14 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			pstmt.setString(1, utilisateur.getPseudo());
 			pstmt.setString(2, utilisateur.getNom());
 			pstmt.setString(3, utilisateur.getPrenom());
-			pstmt.setString(1, utilisateur.getPseudo());
 			pstmt.setString(4, utilisateur.getEmail());
 			pstmt.setString(5, utilisateur.getTelephone());
 			pstmt.setString(6, utilisateur.getRue());
 			pstmt.setInt(7, utilisateur.getCodePostal());
 			pstmt.setString(8, utilisateur.getVille());
 			pstmt.setString(9, utilisateur.getMot_de_passe());
+			pstmt.setInt(10, utilisateur.getNoUtilisateur());
+			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -280,22 +285,70 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		}
 	}
 
+
+
+/**
+	 * {@inheritDoc}
+	 * 
+	 * @see fr.eni.projetweb.dal.UtilisateurDAO#selectPseudosExceptUserId(java.lang.String)
+	 */
+	@Override
+	public List<String> selectPseudosExceptUserId(int numeroUtilisateur) throws BusinessException {
+		System.out.println("dal selecto pseudo sauf " + numeroUtilisateur);
+		List<String> pseudos = new ArrayList<>();
+		try (Connection con = ConnectionProvider.getConnection();
+				PreparedStatement stmt = con.prepareStatement(SELECT_PSEUDOS_EXCEPT_USER_ID);) {
+			stmt.setInt(1, numeroUtilisateur);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				pseudos.add(rs.getString("pseudo"));
+			}
+		} catch (Exception e) {
+			// TODO: gérer erreurs DAL
+			throw new BusinessException();
+		}
+		return pseudos;
+	}
+
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @see fr.eni.projetweb.dal.UtilisateurDAO#selectEmailsExceptUserId(java.lang.String)
+	 */
+	@Override
+	public List<String> selectEmailsExceptUserId(int numeroUtilisateur) throws BusinessException {
+		List<String> emails = new ArrayList<>();
+		try (Connection con = ConnectionProvider.getConnection();
+				PreparedStatement stmt = con.prepareStatement(SELECT_EMAILS_EXCEPT_USER_ID);) {
+			stmt.setInt(1, numeroUtilisateur);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				emails.add(rs.getString("email"));
+			}
+		} catch (Exception e) {
+			// TODO: gerer erreurs DAl
+			throw new BusinessException();
+		}
+		return emails;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see fr.eni.projetweb.dal.UtilisateurDAO#deleteUser(fr.eni.projetweb.bo.Utilisateur)
 	 */
 	@Override
-	public void deleteUser(Utilisateur utilisateur) throws BusinessException {
-		try(Connection cnx = ConnectionProvider.getConnection())
-		{
+	public void deleteUser(int numeroUtilisateur) throws BusinessException {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE_USER);
-			pstmt.setInt(1, utilisateur.getNoUtilisateur());
+			pstmt.setInt(1, numeroUtilisateur);
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodesResultatDAL.DELETE_USER_ERREUR);
 			throw businessException;
 		}
-		
+
 	}
 }

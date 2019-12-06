@@ -118,7 +118,7 @@
 					
 						<div class="row">
 							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-								<label for="nom_article"><span class="txt1 p-b-11">Article :</span></label>
+								<label for="nom_article"><span class="txt1 p-b-11">Article* :</span></label>
 								<div class="wrap-input100 ">
 									<input class="input100" type="text" name="nom_article" id="nom_article" required autofocus>
 									<span class="focus-input100"></span>
@@ -130,7 +130,7 @@
 						
 						<div class="row">
 								<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-								<label for="description"><span class="txt1 p-b-11">Description :</span></label>
+								<label for="description"><span class="txt1 p-b-11">Description* :</span></label>
 									<div class="wrap-input100 ">
 									<textarea class="input100"  name="description" id="description">
 										
@@ -144,7 +144,7 @@
 						
 					<div class="row" style="margin: 10px 0 10px 0">
 						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" >
-							<span class="txt1 p-b-11"> Catégorie :</span> 
+							<span class="txt1 p-b-11"> Catégorie* :</span> 
 							<span class="btn-show-pass"></span> 
 							<select name="categorie"
 								onChange="combo(this, 'theinput')" style="margin-left : 15px; margin-bottom : 25px ;width: 150px;">
@@ -159,7 +159,7 @@
 					
 						
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="display: flex">
-								<label for="mise_prix"><span class="txt1 p-b-11" style="margin-right: 10px">Mise à prix :</span></label>
+								<label for="mise_prix"><span class="txt1 p-b-11" style="margin-right: 10px">Mise à prix* :</span></label>
 								<div class="wrap-input100  col-xs-7 col-sm-7 col-md-7 col-lg-7" style="height: 37px">
 									<input type="number" class="input100"  name="mise_prix" id="mise_prix" min="0" max="10000" step="1" value="150">
 									<span class="focus-input100"></span>
@@ -170,8 +170,6 @@
 					
 					<div class="row">	
 					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="margin-bottom: 25px; text-align: center;">
-					<!-- <span class="txt1 p-b-11">Photo de l'article :</span>  
-						<div class="col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-lg-6  " style="background-color: yellow">  </div>-->
 							<a class="login100-form-btn boutonUpload" href="<%=request.getContextPath()%>/ServletAccueil"> 
 										Uploader une photo</a>
 						
@@ -182,7 +180,7 @@
 						
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<label for="date_debut"><span class="txt1 p-b-11">Début de l'enchère :</span></label>
+							<label for="date_debut"><span class="txt1 p-b-11">Début de l'enchère* :</span></label>
 							<div class="wrap-input100  col-xs-7 col-sm-7 col-md-7 col-lg-7">
 								<input class="input100" type="datetime-local" name="date_debut" id="date_debut" required>
 								<span class="focus-input100"></span>
@@ -192,7 +190,7 @@
 					
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<label for="date_fin"><span class="txt1 p-b-11">Fin de l'enchère :</span></label>
+							<label for="date_fin"><span class="txt1 p-b-11">Fin de l'enchère* :</span></label>
 							<div class="wrap-input100 col-xs-7 col-sm-7 col-md-7 col-lg-7">
 								<input class="input100" type="datetime-local" name="date_fin" id="date_fin" required>
 								<span class="focus-input100"></span>
@@ -210,7 +208,7 @@
 								 </legend>
 								 	<div class="row">
 										<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-											<label for="rue"><span class="txt1 p-b-11">Rue :</span></label>
+											<label for="rue"><span class="txt1 p-b-11">Rue* :</span></label>
 												<div class="wrap-input100 ">
 													<input class="input100" type="text" name="rue" id="rue" required 
 														  	value="${utilisateur.rue}">
@@ -221,7 +219,7 @@
 									
 									<div class="row">
 										<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-											<label for="code_postal"><span class="txt1 p-b-11">Code postal :</span></label>
+											<label for="code_postal"><span class="txt1 p-b-11">Code postal* :</span></label>
 												<div class="wrap-input100 ">
 													<input class="input100" type="text" name="code_postal" id="code_postal" required 
 														  	value="${utilisateur.codePostal}">
@@ -232,7 +230,7 @@
 									
 									<div class="row">
 										<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-											<label for="ville"><span class="txt1 p-b-11">Ville :</span></label>
+											<label for="ville"><span class="txt1 p-b-11">Ville* :</span></label>
 												<div class="wrap-input100 ">
 													<input  class="input100" type="text" name="ville" id="ville" required 
 														  	value="${utilisateur.ville}">

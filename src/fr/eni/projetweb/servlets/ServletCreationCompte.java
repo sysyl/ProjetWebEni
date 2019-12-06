@@ -1,8 +1,6 @@
 package fr.eni.projetweb.servlets;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.projetweb.bll.UtilisateursManager;
+import fr.eni.projetweb.bo.Utilisateur;
 import fr.eni.projetweb.exceptions.BusinessException;
 
 /**
@@ -55,10 +54,14 @@ public class ServletCreationCompte extends HttpServlet {
 		String motDePasse = request.getParameter("password").trim();
 		String confirmation = request.getParameter("confirmation").trim();
 		
-		UtilisateursManager manager = new UtilisateursManager();
+		UtilisateursManager manager = UtilisateursManager.getInstance();
+	
 		try {
-			manager.ajouterUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, confirmation);		
-			response.sendRedirect("/ProjetWebENI/ServletAccueilConnecte");
+			manager.ajouterUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, confirmation);
+			
+	//		int idUtilisateur = (int) request.getSession().getAttribute("idUtilisateur"); 
+			//System.out.println("idUtilisateur servlet creation compte : "+idUtilisateur);
+			response.sendRedirect("/ProjetWebENI/connexion");
 			
 		} catch (BusinessException e) {
 			System.out.println("erreur");

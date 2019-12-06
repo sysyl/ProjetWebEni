@@ -20,10 +20,18 @@ import fr.eni.projetweb.exceptions.BusinessException;
  */
 public class CategorieManager {
 	
+	private static CategorieManager instance;
 	private CategorieDAO categorieDAO;
 	
-	public CategorieManager() {
+	private CategorieManager() {
 		categorieDAO = DAOFactory.getCategorieDAO();
+	}
+	
+	public static CategorieManager getInstance() {
+		if(instance == null) {
+			instance = new CategorieManager();
+		}
+		return instance;
 	}
 	
 	public List<Categorie> getAllCategories() {

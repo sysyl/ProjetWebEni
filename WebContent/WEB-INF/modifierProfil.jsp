@@ -83,7 +83,7 @@
 					</div>
 				</div>
 			
-				<form class="form" action="<%=request.getContextPath()%>/ServletCreationCompte" method="post">
+				<form class="form" action="<%=request.getContextPath()%>/ServletModifierProfil" method="post">
 					
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -170,9 +170,9 @@
 					</div>
 					
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="password"><span class="txt1 p-b-11">Mot de passe actuel :</span></label>
+							<label for="currentpassword"><span class="txt1 p-b-11">Mot de passe actuel :</span></label>
 								<div class="wrap-input100 validate-input m-b-36" data-validate="Le mot de passe est requis">
-									<input class="input100" type="password" name="password" id="password" required>
+									<input class="input100" type="password" name="currentpassword" id="currentpassword" required>
 									<span class="focus-input100"></span>
 								</div>
 						</div>
@@ -199,13 +199,11 @@
 					<div class="row" >	
 						<div class="flex-sb-m w-full p-b-48" >
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-								<a class="login100-form-btn bouton">
-								Enregistrer
-								</a>
+								<input type="submit" class="login100-form-btn bouton" value="Enregistrer">
 							</div>		
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">			
 							<div class="row">
-								<a class="login100-form-btn bouton" href="<%=request.getContextPath()%>/ServletAccueil"> 
+								<a class="login100-form-btn bouton" href="<%=request.getContextPath()%>/supprimer"> 
 								Supprimer mon compte
 								</a>
 							</div>

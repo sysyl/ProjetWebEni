@@ -30,8 +30,8 @@ public class ServletVendre extends HttpServlet {
      */
     public ServletVendre() {
     	 super();
-    	categoriesManager = new CategorieManager();
-    	utilisateurManager = new UtilisateursManager();
+    	categoriesManager = CategorieManager.getInstance();
+    	utilisateurManager = UtilisateursManager.getInstance();
     }
 
 	/**
@@ -40,9 +40,10 @@ public class ServletVendre extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//je recupere l'utilisateur pour pouvoir afficher 
 		//par defaut son adresse en tant qu'adresse de retrait.
-		int idUtilisateur = (int) request.getSession().getAttribute("idUtilisateur"); //TODO
-		Utilisateur utlisateur = utilisateurManager.afficherUtilisateur(idUtilisateur);
-		request.setAttribute("utilisateur", utlisateur);
+		int idUtilisateur = (int) request.getSession().getAttribute("idUtilisateur"); 
+		System.out.println("id utilisateur dans la serv vendre " + idUtilisateur);
+		Utilisateur utilisateur = utilisateurManager.afficherUtilisateur(idUtilisateur);
+		request.setAttribute("utilisateur", utilisateur);
 		
 		//recuperation de la liste de categories pour la liste deroulante
 		List<Categorie> listCategories = categoriesManager.getAllCategories();

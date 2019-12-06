@@ -65,7 +65,13 @@ public abstract class CodesResultatBLL {
 	 * (erreur select)
 	 */
 	public static final int REGLE_RECUPERATION_BDD_ERREUR = 20010;
-	
-
+	/*
+	 * Les données saisies ne peuvent pas être enregistrées dans la base de données.
+	 */
+	public static final int ERREUR_INSERTION = 20014;
+	/*
+	 * Echec le champ est vide -> contraite NOT NULL dans la bdd
+	 */
+	public static final int REGLE_CHAMP_VIDE_ERREUR = 20015;
 	
 }

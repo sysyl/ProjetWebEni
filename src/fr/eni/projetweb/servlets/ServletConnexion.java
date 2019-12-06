@@ -15,7 +15,6 @@ import fr.eni.projetweb.bll.UtilisateursManager;
 import fr.eni.projetweb.bo.Utilisateur;
 import fr.eni.projetweb.dal.DAOFactory;
 import fr.eni.projetweb.dal.UtilisateurDAO;
-import fr.eni.projetweb.dal.jdbc.UtilisateurDAOJdbcImpl;
 
 /**
  * Servlet implementation class ServletListe
@@ -54,9 +53,8 @@ public class ServletConnexion extends HttpServlet {
 		try {
 			Utilisateur user = new Utilisateur();
 			UtilisateurDAO userJDBC = DAOFactory.getUtilisateurDAO();
-			//	UtilisateurDAOJdbcImpl userJDBC = new UtilisateurDAOJdbcImpl();
 
-			UtilisateursManager manager = new UtilisateursManager();
+			UtilisateursManager manager = UtilisateursManager.getInstance();
 			String mdp = request.getParameter("mot_de_passe");
 			String mdpHashe = MethodesUtiles.hasherMotDePasse(mdp);
 
@@ -71,14 +69,14 @@ public class ServletConnexion extends HttpServlet {
 				session.setAttribute("idUtilisateur", user.getNoUtilisateur());
 				session.setAttribute("pseudo", user.getPseudo());
 				
-				System.out.println("Connexion r�ussie");
+				System.out.println("Connexion reussie");
 				response.sendRedirect("/ProjetWebENI/ServletAccueilConnecte");
 
 			}
 
 			else {
 				System.out.println("Echec connexion");
-				response.sendRedirect("/WEB-INF/connexion");
+				response.sendRedirect("/ProjetWebENI/connexion");
 			}
 		}
 

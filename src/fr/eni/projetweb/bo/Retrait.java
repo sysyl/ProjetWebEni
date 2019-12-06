@@ -16,6 +16,7 @@ public class Retrait {
 	private String rue;
 	private int codePostal;
 	private String ville;
+	private boolean status;
 	
 	public Retrait() {
 		
@@ -28,19 +29,21 @@ public class Retrait {
 	 * @param ville
 	 * @param article
 	 */
-	public Retrait(String rue, int codePostal, String ville) {
+	public Retrait(String rue, int codePostal, String ville, boolean status) {
 		super();
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
+		this.status = status;
 	}
 	
-	public Retrait(int idRetrait, String rue, int codePostal, String ville) {
+	public Retrait(int idRetrait, String rue, int codePostal, String ville, boolean status) {
 		super();
 		this.idRetrait = idRetrait;
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
+		this.status = status;
 	}
 
 	/**

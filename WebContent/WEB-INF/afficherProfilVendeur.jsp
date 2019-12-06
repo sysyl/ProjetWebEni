@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Profil</title>
+<title>Profil Vendeur</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -126,11 +126,7 @@
 				
 					<div class="row" >
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="row">
-							<a class="login100-form-btn bouton"
-								href="<%=request.getContextPath()%>/ServletModifierProfil">
-								Modifier </a>
-						</div>
+					
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 						<div class="row">

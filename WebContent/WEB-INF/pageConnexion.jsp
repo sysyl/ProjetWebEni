@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +40,7 @@
 <body>
 
 <div class="topnav">
-  <a class="active" href="<%=request.getContextPath()%>/ServletAccueil">ENI Enchères</a>
+  <a class="active" href="<%=request.getContextPath()%>/ServletAccueil">ENI EnchÃ¨res</a>
   <a href="<%=request.getContextPath()%>/ServletAccueil">Accueil</a>
 </div>
 
@@ -74,7 +74,7 @@
 						</div>
 
 						<div>
-							<a href="#" class="txt3"> Mot de passe oublié </a>
+							<a href="#" class="txt3"> Mot de passe oubliÃ© </a>
 						</div>
 					</div>
 
@@ -83,7 +83,7 @@
 							<button type="submit" class="login100-form-btn">Connexion</button>
 						</div>
 						<div class="container-login100-create-btn">					
-							<button id="newAccount" class="login100-create-btn">Créer
+							<button id="newAccount" class="login100-create-btn">CrÃ©er
 								un compte</button>
 							<script type="text/javascript">
 								document.getElementById("newAccount").onclick = function() {

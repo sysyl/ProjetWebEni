@@ -11,6 +11,7 @@ import java.util.List;
 
 import fr.eni.projetweb.bo.Categorie;
 import fr.eni.projetweb.dal.CategorieDAO;
+import fr.eni.projetweb.dal.CodesResultatDAL;
 import fr.eni.projetweb.exceptions.BusinessException;
 
 /**
@@ -23,7 +24,7 @@ import fr.eni.projetweb.exceptions.BusinessException;
 public class CategorieDAOJdbcImpl implements CategorieDAO {
 	
 	public static final String SELECT_ALL = "SELECT * FROM CATEGORIES";
-	public static final String SELECT_CATEGORIE = "SELECT * FROM CATEGORIES WHERE id=?";
+	public static final String SELECT_CATEGORIE = "SELECT * FROM CATEGORIES WHERE no_categorie=?";
 
 	
 	
@@ -38,8 +39,9 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 				categories.add(new Categorie(rs.getInt("no_categorie"), rs.getString("libelle")));
 			}	
 		} catch (Exception e) {
-			// TODO: gerer erreurs DAl
-			throw new BusinessException();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.REGLE_UTILISATEUR_ERREUR);
+			throw businessException;
 		}
 		return categories;
 	}

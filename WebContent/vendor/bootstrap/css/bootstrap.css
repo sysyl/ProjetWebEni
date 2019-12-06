@@ -2045,13 +2045,13 @@ fieldset[disabled] a.btn {
 
 .btn-success {
   color: #fff;
-  background-color: #28a745;
+  background-color: #333333;
   border-color: #28a745;
 }
 
 .btn-success:hover {
   color: #fff;
-  background-color: #218838;
+  background-color: #57b846;
   border-color: #1e7e34;
 }
 
@@ -2060,13 +2060,13 @@ fieldset[disabled] a.btn {
 }
 
 .btn-success.disabled, .btn-success:disabled {
-  background-color: #28a745;
+  background-color: #333333;
   border-color: #28a745;
 }
 
 .btn-success:active, .btn-success.active,
 .show > .btn-success.dropdown-toggle {
-  background-color: #218838;
+  background-color: #57b846;
   background-image: none;
   border-color: #1e7e34;
 }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * Classe en charge de 
  * @version Projet1 - V1.0
  * @author jpietras2019
- * @date 2 déc. 2019 - 14:28:43
+ * @date 2 dï¿½c. 2019 - 14:28:43
  *
  */
 public class Article {
@@ -31,15 +31,20 @@ public class Article {
 		/**
 		 * Constructeur.
 		 */
+		public Article() {
+			
+		}
+	
 		public Article(String nomArticle,Integer prixVente, Timestamp finEncheres, Integer noUtilisateur) {
 			this.nomArticle = nomArticle;
 			this.prixVente = prixVente;
 			this.finEncheres = finEncheres;
 			this.noUtilisateur = noUtilisateur;
 			}
-		
-		public Article() {
-			
+
+		public Article(int noArticle, String nomArticle, String descriptionArticle, Timestamp debutEncheres, Timestamp finEncheres, int prixInitial, int prixVente, Utilisateur utilisateur, Categorie categorie, Retrait retrait,String pathImg ) {
+			this(nomArticle, descriptionArticle, debutEncheres, finEncheres, prixInitial, prixVente, utilisateur, categorie, retrait, pathImg);
+			setNoArticle(noArticle);
 		}
 		
 		public Article(String nomArticle, String descriptionArticle, Timestamp debutEncheres, Timestamp finEncheres, int prixInitial, 
@@ -52,6 +57,8 @@ public class Article {
 			setCategorie(categorie);
 			setRetrait(retrait);
 			setPathImg(pathImg);
+			setPrixInitial(prixInitial);
+			setPrixVente(prixVente);
 		}
 		
 		public Article(String nomArticle, String descriptionArticle, Timestamp debutEncheres, Timestamp finEncheres, Utilisateur utilisateur, Categorie categorie, Retrait retrait,String pathImg ) {
@@ -64,6 +71,7 @@ public class Article {
 			setRetrait(retrait);
 			setPathImg(pathImg);
 		}
+		
 		
 		/**
 		 * Getter pour utilisateur.
