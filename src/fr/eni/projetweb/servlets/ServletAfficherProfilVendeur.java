@@ -31,7 +31,7 @@ public class ServletAfficherProfilVendeur extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("param");
+		String id = request.getParameter("id");
 		int idUtilisateur = Integer.valueOf(id);
 		Utilisateur user = new Utilisateur();
 		UtilisateursManager UserManager = UtilisateursManager.getInstance();
@@ -39,8 +39,6 @@ public class ServletAfficherProfilVendeur extends HttpServlet {
 		user = UserManager.afficherUtilisateur(idUtilisateur);
 		
 		request.setAttribute("user", user);
-		
-		System.out.println(user.toString());
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/afficherProfilVendeur.jsp");
 		rd.forward(request, response);

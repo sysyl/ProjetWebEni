@@ -1,15 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@ page import="fr.eni.projetweb.messages.LecteurMessage"%>
+<%@ page import="fr.eni.projetweb.bo.Article"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link
-	href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-<title>Nouvelle vente</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Vente - modification</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -41,9 +39,6 @@
 <link rel="stylesheet" type="text/css" href="css/util.css">
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-
-
-</head>
 <style>
 .divUpload {
 	display: flex;
@@ -52,11 +47,11 @@
 }
 
 textarea {
-	width: 100%;
-	height: 100px !important;
 	padding: 12px 20px;
 	box-sizing: border-box;
-	resize: vertical; /* on peut aggrandir textearea que verticalement */
+	resize: vertical !important;
+	/* on peut aggrandir textearea que verticalement */
+	height: 100px !important;
 }
 
 fieldset {
@@ -113,15 +108,23 @@ a.login100-form-btn {
 .categorie {
 	margin-top: 10px;
 }
+
+.ahref {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
 </style>
+</head>
 <body>
-	<!-- col-xs-12 .col-sm-6 col-md-6 .col-lg-8 -->
+
+
 
 
 	<div class="topnav">
 		<a class="active"
 			href="<%=request.getContextPath()%>/ServletAccueilConnecte">ENI
-			Ench√®res</a> <a
+			EnchËres</a> <a
 			href="<%=request.getContextPath()%>/ServletAccueilConnecte">Accueil</a>
 	</div>
 
@@ -132,9 +135,8 @@ a.login100-form-btn {
 				<div class="row">
 					<div class="col-sm-12">
 						<h1>
-							<span class="login100-form-title">Nouvelle vente</span>
+							<span class="login100-form-title">Modification des informations sur l'article</span>
 						</h1>
-
 					</div>
 				</div>
 				<hr>
@@ -158,8 +160,11 @@ a.login100-form-btn {
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
 					<form class="form"
-						action="<%=request.getContextPath()%>/ServletEnregistrementVente"
+						action="<%=request.getContextPath()%>/ServletEnregistrementModifications"
 						method="post">
+						<input type="hidden" name="idArticle" value="${article.noArticle}">
+						<input type="hidden" name="idRetrait"
+							value="${article.retrait.idRetrait}">
 
 						<div class="row">
 							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
@@ -168,9 +173,8 @@ a.login100-form-btn {
 										d'article * :</span></label>
 								<div class="wrap-input100 ">
 									<input class="input100" type="text" name="nom_article"
-										id="nom_article"
-										value="<%=request.getParameter("nom_article") != null ? request.getParameter("nom_article") : ""%>"
-										required autofocus> <span class="focus-input100"></span>
+										id="nom_article" required value="${article.nomArticle}">
+									<span class="focus-input100"></span>
 								</div>
 							</div>
 						</div>
@@ -182,10 +186,7 @@ a.login100-form-btn {
 								<label for="description"><span class="txt1 p-b-11">Description
 										* :</span></label>
 								<div class="wrap-input100 ">
-									<textarea class="input100" name="description" id="description"
-										cols="250">		
-									<%=request.getParameter("description") != null ? request.getParameter("description") : ""%>
-									</textarea>
+									<textarea class="input100" name="description" id="description">${article.descriptionArticle}</textarea>
 									<span class="focus-input100"></span>
 								</div>
 							</div>
@@ -195,63 +196,80 @@ a.login100-form-btn {
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 								<div class="row categorie">
-									<span class="txt1 p-b-11">Cat√©gorie * :</span> <span
+									<span class="txt1 p-b-11">CatÈgorie * :</span> <span
 										class="btn-show-pass"></span> <select name="categorie"
-										class="input100" onChange="combo(this, 'theinput')"
-										style="margin-left: 15px; margin-bottom: 25px; width: 220px;">
-										<c:if test="${!empty listCategories}">
-											<c:forEach var="c" items="${listCategories}">
+										id="categorie" class="input100"
+										onChange="combo(this, 'theinput')"
+										style="margin-left: 15px; margin-bottom: 25px; width: 235px; height: 37px;">
+										<c:if test="${!empty categories}">
+											<c:forEach var="c" items="${categories}">
 												<option value="${c.noCategorie}">${c.libelle}</option>
 											</c:forEach>
 										</c:if>
 									</select>
 								</div>
+
+								<!--  Methode javascript qui permet de mettre l'element option a selected quand le numero de la categorie
+										article choisi correspond a l'iteration en cours -->
+								<script>
+											function setSelectedIndex(s, i){
+												s.options[i-1].selected = true;
+											return;
+											}
+											setSelectedIndex(document.getElementById("categorie"), ${article.categorie.noCategorie});	
+										</script>
+
+
 								<div class="row">
 									<label for="mise_prix"><span class="txt1 p-b-11"
-										style="margin-right: 10px">Mise √† prix * :</span></label>
+										style="margin-right: 10px">Mise ‡ prix * :</span></label>
 									<div class="wrap-input100  col-xs-7 col-sm-7 col-md-7 col-lg-7"
 										style="height: 37px">
 										<input type="number" class="input100" name="mise_prix"
-											id="mise_prix" min="0" max="10000" step="1" value="50">
-										<span class="focus-input100"></span>
+											id="mise_prix" min="0" max="10000" step="1"
+											value="${article.prixInitial}"> <span
+											class="focus-input100"></span>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-										<label for="date_debut"><span class="txt1 p-b-11">D√©but
-												de l'ench√®re * :</span></label>
+										<label for="date_debut"><span class="txt1 p-b-11">DÈbut
+												de l'enchËre * :</span></label>
 										<div class="wrap-input100">
 											<input class="input100" type="datetime-local"
-												name="date_debut" id="date_debut" required> <span
-												class="focus-input100"></span>
+												name="date_debut" id="date_debut" required
+												value="${dateDebut}"> <span class="focus-input100"></span>
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 										<label for="date_fin"><span class="txt1 p-b-11">Fin
-												de l'ench√®re * :</span></label>
+												de l'enchËre * :</span></label>
 										<div class="wrap-input100">
 											<input class="input100" type="datetime-local" name="date_fin"
-												id="date_fin" required> <span class="focus-input100"></span>
+												id="date_fin" required value="${dateFin}"> <span
+												class="focus-input100"></span>
 										</div>
 									</div>
+								</div>
+								<div class="row">
+										<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+											<label for="lien_image"><span class="txt1 p-b-11">URL de l'image :</span></label>
+											<div class="wrap-input100">
+												<input type="text" class="input100" name="lien_image" id="lien_image" value="${article.pathImg}">
+												<span class="focus-input100"></span>
+											</div>
+										</div>
 								</div>
 								
-								<div class="row">
-									<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-										<label for="lien_image"><span class="txt1 p-b-11">URL de l'image :</span></label>
-										<div class="wrap-input100">
-											<input type="text" class="input100" name="lien_image"
-												id="lien_image"> <span class="focus-input100"></span>
-										</div>
-									</div>
-								</div>
+								
+
 
 							</div>
-
-							
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+
 
 								<fieldset class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 									<legend style="width: 20%;">Retrait</legend>
@@ -261,7 +279,7 @@ a.login100-form-btn {
 													* :</span></label>
 											<div class="wrap-input100 ">
 												<input class="" type="text" name="rue" id="rue" required
-													value="${utilisateur.rue}"> <span
+													value="${article.retrait.rue}"> <span
 													class="focus-input100"></span>
 											</div>
 										</div>
@@ -272,8 +290,9 @@ a.login100-form-btn {
 											<label for="code_postal"><span class="txt1 p-b-11">Code postal (format : 44000) * :</span></label>
 											<div class="wrap-input100 ">
 												<input class="" type="text" name="code_postal"
-													id="code_postal" required value="${utilisateur.codePostal}">
-												<span class="focus-input100"></span>
+													id="code_postal" required
+													value="${article.retrait.codePostal}"> <span
+													class="focus-input100"></span>
 											</div>
 										</div>
 									</div>
@@ -284,7 +303,7 @@ a.login100-form-btn {
 													* :</span></label>
 											<div class="wrap-input100 ">
 												<input class="" type="text" name="ville" id="ville" required
-													value="${utilisateur.ville}"> <span
+													value="${article.retrait.ville}"> <span
 													class="focus-input100"></span>
 											</div>
 										</div>
@@ -300,11 +319,20 @@ a.login100-form-btn {
 
 						<div class="row boutons">
 							<div class="flex-sb-m w-full p-b-48">
-								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 									<input type="submit" class="login100-form-btn"
 										value="Enregistrer" style="margin: auto; padding: 0px;">
 								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ahref">
+									<div class="row">
+										<a class="login100-form-btn bouton"
+											href="<%=request.getContextPath()%>/supprimerVente?idArticle=${article.noArticle}">
+											Supprimer </a>
+									</div>
+								</div>
+
+								<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ahref">
 									<div class="row">
 										<a class="login100-form-btn bouton"
 											href="<%=request.getContextPath()%>/ServletAccueilConnecte">
@@ -331,6 +359,18 @@ a.login100-form-btn {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 	<!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<!--===============================================================================================-->
@@ -347,5 +387,6 @@ a.login100-form-btn {
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 	<!--===============================================================================================-->
 	<script src="js/main.js"></script>
+
 </body>
 </html>

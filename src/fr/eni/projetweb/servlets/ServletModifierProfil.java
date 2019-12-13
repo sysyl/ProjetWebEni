@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.projetweb.bll.UtilisateursManager;
+import fr.eni.projetweb.bo.Utilisateur;
 import fr.eni.projetweb.exceptions.BusinessException;
 
 /**
  * Servlet implementation class ServletModifierProfil
  */
 @WebServlet(urlPatterns= {
+				"/ServletProfil",
 				"/ServletModifierProfil",
 				"/supprimer"
 })
@@ -37,33 +39,38 @@ public class ServletModifierProfil extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Integer> listeCodesErreur=new ArrayList<>();	
+		int idUtilisateur = (int)request.getSession().getAttribute("idUtilisateur");		
 		
-		if(request.getServletPath().equals("/ServletModifierProfil"))
-		{	
+		Utilisateur user = new Utilisateur();
+		UtilisateursManager manager = UtilisateursManager.getInstance();
+		
+		user = manager.afficherUtilisateur(idUtilisateur);
+		request.setAttribute("user", user);
+				
+		if(request.getServletPath().equals("/ServletModifierProfil")) {	
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modifierProfil.jsp");
 			rd.forward(request, response);
 		} 	
+		else if(request.getServletPath().equals("/ServletProfil")) {
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/profil.jsp");
+			rd.forward(request, response);
+		}
 		else if(request.getServletPath().equals("/supprimer")){
-			System.out.println("je suis dans la servlet supprimer");
-			int idUtilisateur = (int) request.getSession().getAttribute("idUtilisateur"); 
-			System.out.println("id util " +idUtilisateur);
-			UtilisateursManager manager = UtilisateursManager.getInstance();
+		
 			try {
 				manager.supprimerUtilisateur(idUtilisateur);
 				response.sendRedirect("/ProjetWebENI/ServletAccueil");
-//				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ServletProfil");
-//				rd.forward(request, response);
-			//	ServletProfil
 			} catch (BusinessException e) {
-//				System.out.println("erreur");
-//				for(int l : listeCodesErreur) {
-//					System.out.println(l);
-//				}
+				System.out.println("erreur");
+				for(int l : listeCodesErreur) {
+					System.out.println(l);
+				}
 				System.out.println(e.getListeCodesErreur());
 				request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
-				response.sendRedirect("/ProjetWebENI/ServletModifierProfil");
-//				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ServletModifierProfil");
-//				rd.forward(request, response);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modifierProfil.jsp");
+				rd.forward(request, response);
 			}
 			
 		}
@@ -76,6 +83,9 @@ public class ServletModifierProfil extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		
 		List<Integer> listeCodesErreur=new ArrayList<>();	
 		String pseudo = request.getParameter("pseudo").trim();
@@ -95,22 +105,13 @@ public class ServletModifierProfil extends HttpServlet {
 		System.out.println("id utlisatuer passe " + idUtilisateur);
 		try {
 			manager.modifierUtilisateur(idUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostalS, ville, motDePasseActuel, motDePasse, confirmation);
-	
-//			RequestDispatcher rd = request.getRequestDispatcher("/ProjetWebENI/ServletProfil");
-//			rd.forward(request, response);
 			response.sendRedirect("/ProjetWebENI/ServletProfil");
 
-			
 		} catch (BusinessException e) {
-			System.out.println("erreur");
-			for(int l : listeCodesErreur) {
-				System.out.println(l);
-			}
-			System.out.println(e.getListeCodesErreur());
 			request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modifierProfil.jsp");
 			rd.forward(request, response);
-			//e.printStackTrace();
+			
 		}
 	
 		

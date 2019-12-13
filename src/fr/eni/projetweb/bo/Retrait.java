@@ -16,7 +16,7 @@ public class Retrait {
 	private String rue;
 	private int codePostal;
 	private String ville;
-	private boolean status;
+	private boolean statut;
 	
 	public Retrait() {
 		
@@ -29,21 +29,21 @@ public class Retrait {
 	 * @param ville
 	 * @param article
 	 */
-	public Retrait(String rue, int codePostal, String ville, boolean status) {
+	public Retrait(String rue, int codePostal, String ville, boolean statut) {
 		super();
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
-		this.status = status;
+		this.statut = statut;
 	}
 	
-	public Retrait(int idRetrait, String rue, int codePostal, String ville, boolean status) {
+	public Retrait(int idRetrait, String rue, int codePostal, String ville, boolean statut) {
 		super();
 		this.idRetrait = idRetrait;
 		this.rue = rue;
 		this.codePostal = codePostal;
 		this.ville = ville;
-		this.status = status;
+		this.statut = statut;
 	}
 
 	/**
@@ -104,15 +104,16 @@ public class Retrait {
 		this.ville = ville;
 	}
 
-	/**
-	 * Getter pour article.
-	 * @return the article
-	 */
+	
 
-	/**
-	 * {@inheritDoc}
-	 * @see java.lang.Object#toString()
-	 */
+	public boolean isStatut() {
+		return statut;
+	}
+
+	public void setStatut(boolean statut) {
+		this.statut = statut;
+	}
+
 	@Override
 	public String toString() {
 		return "Retrait [rue=" + rue + ", codePostal=" + codePostal + ", ville=" + ville + "]";

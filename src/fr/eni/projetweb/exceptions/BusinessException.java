@@ -20,6 +20,11 @@ public class BusinessException extends Exception {
 		this.listeCodesErreur=new ArrayList<>();
 	}
 	
+	
+	public BusinessException(Throwable t) {
+		super(t);
+		this.listeCodesErreur=new ArrayList<>();
+	}
 	/**
 	 * 
 	 * @param code Code de l'erreur. 

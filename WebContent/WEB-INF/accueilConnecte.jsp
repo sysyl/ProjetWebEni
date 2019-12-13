@@ -2,12 +2,22 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="fr.eni.projetweb.messages.LecteurMessage"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="fr.eni.projetweb.bo.Categorie"%>
 <%@page import="fr.eni.projetweb.bo.Article"%>
 <%@page import="fr.eni.projetweb.bo.Utilisateur"%>
 <%@page import="java.util.List"%>
+<%@page import="fr.eni.projetweb.bll.MethodesUtiles"%>
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+.center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+</style>
 <title>ENI ENCHERES</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,13 +56,18 @@
 <!--===============================================================================================-->
 </head>
 
+<%
+	List<Categorie> listeCategorie = (List<Categorie>) session.getAttribute("listeCategorie");
+	List<Article> listeArticle = (List<Article>) session.getAttribute("listeArticleConnecte");
+%>
+
 <body>
 	<div class="topnav">
 		<a class="active" href="#">ENI Enchères - Bonjour <%=request.getSession().getAttribute("pseudo")%></a>
 		<a href="<%=request.getContextPath()%>/ServletListeEncheres">Enchères</a>
 		<a href="<%=request.getContextPath()%>/ServletVendre">Vendre un
 			article</a> <a href="<%=request.getContextPath()%>/ServletProfil">Mon
-			profil</a> <a href="<%=request.getContextPath()%>/ServletAccueil">Déconnexion</a>
+			profil</a> <a href="<%=request.getContextPath()%>/ServletDeconnexion">Déconnexion</a>
 	</div>
 
 
@@ -62,138 +77,182 @@
 			Liste des enchères </span>
 
 		<div class="row">
+			<%
+				if (listeArticle != null) {
+			%>
 			<div class="col-md-6">
-
-				<div class="wrap-home100 p-l-85 p-r-85 p-t-55 p-b-55">
-
-					<form method="post" action="/ProjetWebENI/ServletAccueilConnecte"
-						class="login100-form validate-form flex-sb flex-w">
-						<span class="login100-form-title p-b-32"> Filtres : </span>
-						<div class="wrap-input100 validate-input m-b-36">
-							<i class="fa fa-search" aria-hidden="true"></i> <input
-								maxlength="50" type="search" name="search"
-								placeholder="Nom de l'article">
-						</div>
-
-						<div class="flex-sb-m w-full p-b-48">
-							<p>Catégorie :</p>
-							<span class="btn-show-pass"></span> <select name="categorie"
-								onChange="combo(this, 'theinput')"
-								style="margin-left: 15px; margin-bottom: 25px; width: 150px;">
-								<option value="toutes">Toutes</option>
-								<c:if test="${!empty listCategories}">
-									<c:forEach var="c" items="${listCategories}">
-										<option value="${c.noCategorie}">${c.libelle}</option>
-									</c:forEach>
-								</c:if>
-							</select> <span class="focus-input100"></span>
-						</div>
-
-
-						<div class="flex-sb-m w-full p-b-48">
-							<label> <input type="checkbox" name="achats" checked
-								value="achats" id="achats"> <span class="label-text"
-								onclick="invertCheckbox('input[name=\'ventes\']', false);setAchat()">Achats</span>
-							</label> <label> <input type="checkbox" name="ventes"
-								value="ventes" id="ventes"> <span class="label-text"
-								onclick="invertCheckbox('input[name=\'achats\']', false);setVente()">Mes
-									ventes</span>
-							</label>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-check">
-								<label> <input type="checkbox" name="achat"
-									value="enchereouverte" id="enchereouverte"> <span
-									class="label-text">Enchères ouvertes</span>
-								</label>
-							</div>
-							<div class="form-check">
-								<label> <input type="checkbox" name="achat"
-									value="enchereencours" id="enchereencours"> <span
-									class="label-text">Mes enchères en cours</span>
-								</label>
-							</div>
-							<div class="form-check">
-								<label> <input type="checkbox" name="achat"
-									value="enchereremporte" id="enchereremporte"> <span
-									class="label-text">Mes enchères remportées</span>
-								</label>
-							</div>
-
-						</div>
-						<div class="col-md-6">
-							<div class="form-check">
-								<label> <input type="checkbox" name="vente"
-									value="venteencours" disabled id="venteencours"> <span
-									class="label-text">Mes ventes en cours</span>
-								</label>
-							</div>
-							<div class="form-check">
-								<label> <input type="checkbox" name="vente"
-									value="ventenondebute" disabled id="ventenondebute"> <span
-									class="label-text">Ventes non débutées</span>
-								</label>
-							</div>
-							<div class="form-check">
-								<label> <input type="checkbox" name="vente"
-									value="ventetermine" disabled id="ventetermine"> <span
-									class="label-text">Ventes terminées</span>
-								</label>
-							</div>
-						</div>
-
-						<div class="container-login100-form-btn">
-							<button type="submit" class="btn btn-success">Rechercher</button>
-						</div>
-					</form>
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-
 				<%
-					List<Article> listeArticle = (List<Article>) session.getAttribute("listeArticle");
-					List<String> listePseudoUtilisateurs = (List<String>) session.getAttribute("listePseudo");
+					}
 				%>
 
-				<div class="container-fluid">
-					<div class="row">
-						<%
-							int i = 0;
-							for (Article article : listeArticle) {
-						%>
+				<%
+					if (listeArticle == null) {
+				%>
+				<div class="col-md-12">
+					<%
+						}
+					%>
+					<div class="wrap-home100 p-l-85 p-r-85 p-t-55 p-b-55">
 
-
-						<div class="col-md-4">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title"><%=article.getNomArticle()%></h5>
-									<p class="card-text">
-										Prix:<%=article.getPrixVente()%></p>
-									<p class="card-text">
-										Fin de l'enchère:<%=article.getFinEncheres()%></p>
-									<p class="card-text">
-										Vendeur:<a
-											href="<%=request.getContextPath()%>/ServletAfficheUser?id=<%=listeArticle.get(i).getNoUtilisateur()%>"
-											name="<%=listePseudoUtilisateurs.get(i)%>"><%=listePseudoUtilisateurs.get(i)%></a>
-									</p>
-									<a href="#" class="btn btn-success">Voir l'enchère</a>
+						<form method="post" action="/ProjetWebENI/ServletAccueilConnecte"
+							class="login100-form validate-form flex-sb flex-w">
+							<span class="login100-form-title p-b-32"> Filtres : </span>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="wrap-input100" style="height: 30px; width: 230px;">
+										<i class="fa fa-search" aria-hidden="true"></i> <input
+											maxlength="50" type="search" name="search"
+											placeholder="Nom de l'article"> <span
+											class="focus-input100"></span>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<%
-							i++;
-							}
-						%>
+							<div class="flex-sb-m w-full p-b-48">
+								<label for="date_debut" style="margin-top: 25px;"><span
+									class="txt1 p-b-11">Catégorie :</span></label> <select class="input100"
+									name="categorie" onChange="combo(this, 'theinput')"
+									style="margin-bottom: 25px; margin-top: 25px; width: 250px;">
+									<option value="-1">Toutes</option>
+									<c:if test="${!empty listeCategorie}">
+										<c:forEach var="c" items="${listeCategorie}">
+											<option value="${c.noCategorie}">${c.libelle}</option>
+										</c:forEach>
+									</c:if>
+								</select>
+							</div>
+
+
+							<div class="flex-sb-m w-full p-b-48">
+								<label> <input type="checkbox" name="achats" checked
+									value="achats" id="achats"> <span class="label-text"
+									onclick="invertCheckbox('input[name=\'ventes\']', false);setAchat()">Achats</span>
+								</label> <label> <input type="checkbox" name="ventes"
+									value="ventes" id="ventes"> <span class="label-text"
+									onclick="invertCheckbox('input[name=\'achats\']', false);setVente()">Mes
+										ventes</span>
+								</label>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-check">
+									<label> <input type="checkbox" name="enchereouverte"
+										value="enchereouverte" id="enchereouverte"> <span
+										class="label-text">Enchères ouvertes</span>
+									</label>
+								</div>
+								<div class="form-check">
+									<label> <input type="checkbox" name="enchereencours"
+										value="enchereencours" id="enchereencours"> <span
+										class="label-text">Mes enchères en cours</span>
+									</label>
+								</div>
+								<div class="form-check">
+									<label> <input type="checkbox" name="enchereremporte"
+										value="enchereremporte" id="enchereremporte"> <span
+										class="label-text">Mes enchères remportées</span>
+									</label>
+								</div>
+
+							</div>
+							<div class="col-md-6">
+								<div class="form-check">
+									<label> <input type="checkbox" name="venteencours"
+										value="venteencours" disabled id="venteencours"> <span
+										class="label-text">Mes ventes en cours</span>
+									</label>
+								</div>
+								<div class="form-check">
+									<label> <input type="checkbox" name="ventenondebute"
+										value="ventenondebute" disabled id="ventenondebute"> <span
+										class="label-text">Ventes non débutées</span>
+									</label>
+								</div>
+								<div class="form-check">
+									<label> <input type="checkbox" name="ventetermine"
+										value="ventetermine" disabled id="ventetermine"> <span
+										class="label-text">Ventes terminées</span>
+									</label>
+								</div>
+							</div>
+
+							<div class="container-login100-form-btn">
+								<button type="submit"
+									style="width: 100px; width: 100px; margin-top: 25px; margin-bottom: 15px;"
+									class="btn btn-success">Rechercher</button>
+							</div>
+						</form>
+						<button style="width: 100px;" class="btn btn-warning"
+							onClick="javascript:document.location.href='<%=request.getContextPath()%>/ServletViderListe'">
+							<i class="fa fa-refresh" aria-hidden="true"></i>
+						</button>
 					</div>
 				</div>
+
+				<%
+					if (listeArticle != null) {
+				%>
+				<div class="col-md-6">
+
+					<div class="container-fluid">
+						<div class="row">
+							<%
+								int i = 0;
+									for (Article article : listeArticle) {
+							%>
+
+
+							<div class="col-md-4">
+								<div class="card">
+									<div class="card-body">
+										<div class="center">
+											<%
+												if (article.getPathImg() != null) {
+											%>
+											<img style="border-radius: 30px"
+												src=<%=article.getPathImg()%> height=150 width=150
+												border="0">
+											<%
+												} else {
+											%>
+											<img style="border-radius: 30px"
+												src="images/img_manquante.png" height=150 width=150
+												border="0">
+											<%
+												}
+											%>
+										</div>
+										<h5 class="card-title"><%=article.getNomArticle()%></h5>
+										<p class="card-text">
+											Prix:<%=article.getPrixVente()%></p>
+										<p class="card-text">
+											Fin de l'enchère:<%=MethodesUtiles.getStringDateFromTimestamp(article.getFinEncheres())%></p>
+										<p class="card-text">
+											Vendeur:<a
+												href="<%=request.getContextPath()%>/ServletAfficherProfilVendeur?id=<%=article.getUtilisateur().getNoUtilisateur()%>"
+												name="<%=article.getUtilisateur().getPseudo()%>"><%=article.getUtilisateur().getPseudo()%></a>
+										</p>
+										<a
+											href="<%=request.getContextPath()%>/ServletAfficherVente?id=<%=article.getNoArticle()%>"
+											class="btn btn-success">Voir l'enchère</a>
+									</div>
+								</div>
+							</div>
+
+							<%
+								i++;
+									}
+							%>
+						</div>
+
+					</div>
+				</div>
+				<%
+					}
+				%>
 			</div>
 
 		</div>
-
 	</div>
 
 
@@ -253,6 +312,5 @@
 	<!-- 	<script
 		src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
 </body>
 </html>

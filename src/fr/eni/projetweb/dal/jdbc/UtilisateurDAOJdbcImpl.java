@@ -31,6 +31,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	public static final String SELECT_PSEUDOS_EXCEPT_USER_ID = "SELECT pseudo FROM UTILISATEURS WHERE no_utilisateur<>?";
 
 	public static final String SELECT_EMAILS_EXCEPT_USER_ID = "SELECT email FROM UTILISATEURS WHERE no_utilisateur<>?";
+	public static final String UPDATE_SELLER_ACCOUNT = "UPDATE UTILISATEURS SET credit=? WHERE no_utilisateur=?";
+
 	
 	
 	static {
@@ -88,6 +90,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			if (!more) {
 				System.out.println("Ce compte n'existe pas, merci de vous enregistrer avant ");
 				user.setValid(false);
+				
+				
+				
 			}
 
 			// if user exists set the isValid variable to true
@@ -143,7 +148,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	public void insertNewUser(Utilisateur utilisateur) throws BusinessException{
 		try (Connection con = ConnectionProvider.getConnection()) {
 			PreparedStatement stmt = con.prepareStatement(INSERT_NEW_USER, PreparedStatement.RETURN_GENERATED_KEYS);
-		
+			
 			stmt.setString(1, utilisateur.getPseudo());
 			stmt.setString(2, utilisateur.getNom());
 			stmt.setString(3, utilisateur.getPrenom());
@@ -275,7 +280,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			pstmt.setString(8, utilisateur.getVille());
 			pstmt.setString(9, utilisateur.getMot_de_passe());
 			pstmt.setInt(10, utilisateur.getNoUtilisateur());
-			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -350,5 +354,27 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			throw businessException;
 		}
 
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.projetweb.dal.UtilisateurDAO#updateCreditUtilisateur(int)
+	 */
+	@Override
+	public void updateCreditUtilisateur(int credit, int idUtilisateur) throws BusinessException {
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			System.out.println("credit recu dans update " + credit + " num util " + idUtilisateur);
+			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_SELLER_ACCOUNT);
+			pstmt.setInt(1, credit);
+			pstmt.setInt(2, idUtilisateur);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			//businessException.ajouterErreur(CodesResultatDAL.UPDATE_USER_ERREUR);
+			throw businessException;
+		}
+		
 	}
 }

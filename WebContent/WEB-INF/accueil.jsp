@@ -1,7 +1,9 @@
+<%@page import="fr.eni.projetweb.bll.MethodesUtiles"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-	<%@ page import="fr.eni.projetweb.messages.LecteurMessage"%>
+	pageEncoding="UTF-8"%>
+<%@ page import="fr.eni.projetweb.messages.LecteurMessage"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="fr.eni.projetweb.bo.Categorie"%>
 <%@page import="fr.eni.projetweb.bo.Article"%>
 <%@page import="fr.eni.projetweb.bo.Utilisateur"%>
 <%@page import="java.util.List"%>
@@ -40,97 +42,161 @@
 <link rel="stylesheet" type="text/css" href="css/util.css">
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<!--===============================================================================================-->
+<style>
+.center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+</style>
 </head>
 
-<body>
+<%
+	List<Categorie> listeCategorie = (List<Categorie>) session.getAttribute("listeCategorie");
+	List<Article> listeArticlePasConnecte = (List<Article>) session.getAttribute("listeArticlePasConnecte");
+%>
 
-<div class="topnav">
-  <a class="active" href="#">ENI EnchËres</a>
-  <a href="<%=request.getContextPath()%>/connexion">S'inscrire - Se connecter</a> 
-</div>
+<body>
+	<div class="topnav">
+		<a class="active" href="#">ENI Ench√®res</a> <a
+			href="<%=request.getContextPath()%>/connexion">S'inscrire - Se
+			connecter</a>
+	</div>
+
 
 	<div class="container-home100">
 
 		<span style="text-align: center;" class="login100-form-title p-b-32">
-			Liste des enchËres </span>
+			Liste des ench√®res </span>
 
 		<div class="row">
 			<div class="col-md-6">
-			<div class="wrap-home100 p-l-85 p-r-85 p-t-55 p-b-55">
-			
-				<form method="post" action="/ProjetWebENI/ServletAccueilConnecte"
+				<div class="wrap-home100 p-l-85 p-r-85 p-t-55 p-b-55">
+					<form method="post" action="/ProjetWebENI/ServletAccueil"
 						class="login100-form validate-form flex-sb flex-w">
 						<span class="login100-form-title p-b-32"> Filtres : </span>
-						<div class="wrap-input100 validate-input m-b-36">
-							<i class="fa fa-search" aria-hidden="true"></i> <input
-								maxlength="50" type="search" name="search"
-								placeholder="Nom de l'article">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="wrap-input100" style="height: 30px; width: 230px;">
+									<i class="fa fa-search" aria-hidden="true"></i> <input
+										maxlength="50" type="search" name="search"
+										placeholder="Nom de l'article"> <span
+										class="focus-input100"></span>
+								</div>
+							</div>
 						</div>
 
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label for="date_debut" style="margin-top: 25px;"><span
+									class="txt1 p-b-11">D√©but de l'ench√®re :</span></label>
+								<div class="wrap-input100">
+									<input class="input100" type="datetime-local" name="date_debut"
+										id="date_debut"> <span class="focus-input100"></span>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<label for="date_fin" style="margin-top: 25px;"><span
+									class="txt1 p-b-11">Fin de l'ench√®re :</span></label>
+								<div class="wrap-input100">
+									<input class="input100" type="datetime-local" name="date_fin"
+										id="date_fin"> <span class="focus-input100"></span>
+								</div>
+							</div>
+						</div>
+
+
 						<div class="flex-sb-m w-full p-b-48">
-							<p>CatÈgorie :</p>
-							<span class="btn-show-pass"></span> <select name="categorie"
-								onChange="combo(this, 'theinput')"
-								style="margin-left: 15px; margin-bottom: 25px; width: 150px;">
-								<option value="toutes">Toutes</option>
-								<c:if test="${!empty listCategories}">
-									<c:forEach var="c" items="${listCategories}">
+							<label for="date_debut" style="margin-top: 25px;"><span
+								class="txt1 p-b-11">Cat√©gorie :</span></label> <select class="input100"
+								name="categorie" onChange="combo(this, 'theinput')"
+								style="margin-bottom: 25px; margin-top: 25px; width: 250px;">
+								<option value="-1">Toutes</option>
+								<c:if test="${!empty listeCategorie}">
+									<c:forEach var="c" items="${listeCategorie}">
 										<option value="${c.noCategorie}">${c.libelle}</option>
 									</c:forEach>
 								</c:if>
-							</select> <span class="focus-input100"></span>
+							</select>
 						</div>
 
-					<div class="container-login100-form-btn">
-							<button type="submit" class="btn btn-success">Rechercher</button>
+						<div class="container-login100-form-btn">
+							<button type="submit" style="width: 100px; margin-bottom: 15px;"
+								class="btn btn-success">Rechercher</button>
 						</div>
-
-				</form>
+					</form>
+					<button style="width: 100px;" class="btn btn-warning"
+						onClick="javascript:document.location.href='<%=request.getContextPath()%>/ServletDeconnexion'">
+						<i class="fa fa-refresh" aria-hidden="true"></i>
+					</button>
+				</div>
 			</div>
-		</div>
-		
-		<div class="col-md-6">
 
-
-				<%
-					List<Article> listeArticle = (List<Article>) session.getAttribute("listeArticle");
-					List<String> listePseudoUtilisateurs = (List<String>) session.getAttribute("listePseudo");
-				%>
+			<%
+				if (listeArticlePasConnecte != null) {
+			%>
+			<div class="col-md-6">
 
 				<div class="container-fluid">
 					<div class="row">
 						<%
 							int i = 0;
-							for (Article article : listeArticle) {
+								for (Article article : listeArticlePasConnecte) {
 						%>
 
 
 						<div class="col-md-4">
 							<div class="card">
 								<div class="card-body">
+									<div class="center">
+										<%
+											if (article.getPathImg() != null) {
+										%>
+										<img style="border-radius: 30px" src=<%=article.getPathImg()%>
+											height=150 width=150 border="0">
+										<%
+											} else {
+										%>
+										<img style="border-radius: 30px"
+											src="images/img_manquante.png" height=150 width=150
+											border="0">
+										<%
+											}
+										%>
+									</div>
 									<h5 class="card-title"><%=article.getNomArticle()%></h5>
 									<p class="card-text">
 										Prix:<%=article.getPrixVente()%></p>
 									<p class="card-text">
-										Fin de l'enchËre:<%=article.getFinEncheres()%></p>
+										Fin de l'ench√®re:<%=MethodesUtiles.getStringDateFromTimestamp(article.getFinEncheres())%></p>
 									<p class="card-text">
 										Vendeur:<a
-											href="<%=request.getContextPath()%>/ServletAfficheUser?id=<%=listeArticle.get(i).getNoUtilisateur()%>"
-											name="<%=listePseudoUtilisateurs.get(i)%>"><%=listePseudoUtilisateurs.get(i)%></a>
+											href="<%=request.getContextPath()%>/ServletAfficherProfilVendeur?id=<%=article.getUtilisateur().getNoUtilisateur()%>"
+											name="<%=article.getUtilisateur().getPseudo()%>"><%=article.getUtilisateur().getPseudo()%></a>
 									</p>
-									<a href="#" class="btn btn-success">Voir l'enchËre</a>
+									<a
+										href="<%=request.getContextPath()%>/ServletAfficherVente?id=<%=article.getNoArticle()%>"
+										class="btn btn-success">Voir l'ench√®re</a>
 								</div>
 							</div>
 						</div>
 
 						<%
 							i++;
-							}
+								}
 						%>
 					</div>
+
 				</div>
 			</div>
-
+			<%
+				}
+			%>
 		</div>
 
 	</div>
@@ -151,6 +217,9 @@
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 	<!--===============================================================================================-->
 	<script src="js/main.js"></script>
-
+	<!--===============================================================================================-->
+	<!-- 	<script
+		src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </body>
 </html>

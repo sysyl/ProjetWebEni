@@ -1,14 +1,7 @@
 package fr.eni.projetweb.servlets;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -57,47 +50,34 @@ public class ServletEnregistrementVente extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String nomArticle = request.getParameter("nom_article");
-		String description = request.getParameter("description");
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		
+		String nomArticle = request.getParameter("nom_article").trim();
+		String description = request.getParameter("description").trim();
 		int categorieId = Integer.valueOf(request.getParameter("categorie").trim());
-		String prix = request.getParameter("mise_prix");
-		String dateDebut = request.getParameter("date_debut");
-		String dateFin = request.getParameter("date_fin");
-		String rue = request.getParameter("rue");
-		String codePostal = request.getParameter("code_postal");
-		String ville = request.getParameter("ville");		
+		String prix = request.getParameter("mise_prix").trim();
+		String dateDebut = request.getParameter("date_debut").trim();
+		String dateFin = request.getParameter("date_fin").trim();
+		String rue = request.getParameter("rue").trim();
+		String codePostal = request.getParameter("code_postal").trim();
+		String ville = request.getParameter("ville").trim();
+		String lienImage = request.getParameter("lien_image").trim();
 		
 		int idUtilisateur = (int) request.getSession().getAttribute("idUtilisateur"); 
-		System.out.println("idUtilisateur : "+idUtilisateur);
 		Utilisateur utilisateur = utilisateurManager.afficherUtilisateur(idUtilisateur);
 		Categorie categorie = managerCategorie.getCategorie(categorieId);
 	
-//		System.out.println("article : " + nomArticle);
-//		System.out.println("description : " + description);
-		System.out.println("prix str de la servlet: " + prix);
-//		System.out.println("dateDebut : " + dateDebut);
-//		System.out.println("dateFin : " + dateFin);
-//		System.out.println("rue : " + rue);
-//		System.out.println("codePostal : " + codePostal);
-//		System.out.println("ville : " + ville);	
-		
 		try {
-			managerVente.ajouterVente(nomArticle, description, prix, dateDebut, dateFin, rue, codePostal, ville, utilisateur, categorie);
-			RequestDispatcher rd = request.getRequestDispatcher("/ServletAccueilConnecte");
-			rd.forward(request, response);
+			managerVente.ajouterVente(nomArticle, description, prix, dateDebut, dateFin, rue, codePostal, ville, utilisateur, categorie, lienImage);
+			response.sendRedirect("ServletAccueilConnecte");
 		} catch (BusinessException e) {
-//			System.out.println("erreur");
-//			for(int l : listeCodesErreur) {
-//				System.out.println(l);
-//			}
-			System.out.println(e.getListeCodesErreur());
+			List<Categorie> listCategories = managerCategorie.getAllCategories();
+			request.setAttribute("listCategories", listCategories);
 			request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
-			RequestDispatcher rd = request.getRequestDispatcher("/ServletVendre");
-			rd.forward(request, response);
+			request.setAttribute("utilisateur", utilisateur);
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/nouvelleVente.jsp");
+			rd.forward(request, response);	
 		}
-		
-		
-		
 	}
-
 }

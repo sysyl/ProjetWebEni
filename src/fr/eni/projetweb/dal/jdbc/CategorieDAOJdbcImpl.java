@@ -39,7 +39,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 				categories.add(new Categorie(rs.getInt("no_categorie"), rs.getString("libelle")));
 			}	
 		} catch (Exception e) {
-			BusinessException businessException = new BusinessException();
+			BusinessException businessException = new BusinessException(e);
 			businessException.ajouterErreur(CodesResultatDAL.REGLE_UTILISATEUR_ERREUR);
 			throw businessException;
 		}

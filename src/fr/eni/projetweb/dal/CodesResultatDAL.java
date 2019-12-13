@@ -20,11 +20,11 @@ public class CodesResultatDAL {
 	 */
 	public static final int INSERT_OBJET_NULL = 10001;
 	/**
-	 * Une erreur non g�r�e est survenue lors de l'enrgistrement des informations.
+	 * Une erreur non geree est survenue lors de l'enrgistrement des informations.
 	 */
 	public static final int INSERT_OBJET_ECHEC = 10002;
 	/**
-	 * Une erreur non g�r�e est survenue lors de le l'affichage de la liste d'articles.
+	 * Une erreur non geree est survenue lors de le l'affichage de la liste d'articles.
 	 */
 	public static final int LECTURE_ARTICLE_ECHEC=10003;
 	/**
@@ -45,13 +45,53 @@ public class CodesResultatDAL {
 	 */
 	public static final int UTILISATEUR_VALIDATION_ERREUR = 10007;
 	/*
-	 * Erreur lors de la récupération de l'article
+	 * Erreur lors de la recuperation de l'article
 	 */
 	public static final int REGLE_ARTICLE_ERREUR = 10008;
 	/**
-	 * Erreur lors de la récupération du retrait selon id
+	 * Erreur lors de la recuperation du retrait selon id
 	 */
 	public static final int REGLE_RETRAIT_ERREUR = 10009;
+	
+	/*
+	 * Erreur lors de la tentative de parse de date
+	 */
+	public static final int PARSE_DATE_ERREUR = 10010;
+	/*
+	 *Erreur lors de l'insertion de la date (classe Article) dans la bdd 
+	 */
+	public static final int DATE_BDD_ERREUR = 10011;
+	
+	/*
+	 * Echec lors de l'update du statut retrait a : retire
+	 */
+	public static final int RETRAIT_STATUT_ERREUR = 10012;
+	/**
+	 * L'utilisateur a essaye de se connecter avec un mot de passe ou login invalide
+	 */
+	public static final int REGLE_IDENTIFIANTS_INCORRECTS_ERREUR = 10013;
+	/*
+	 * Erreur lors de la suppression d'article
+	 */
+	public static final int DELETE_ARTICLE_ECHEC = 10014;
+	
+	/**
+	 * Echec lors de l'update d'utilisateur
+	 */
+	public static final int UPDATE_ARTICLE_ERREUR = 10015;
+	
+	/**
+	 * Echec lors de la mise a jour de l'adresse du retrait
+	 */
+	public static final int UPDATE_RETRAIT_ERREUR = 10016;
+	
+	/*
+	 * erreur lors de l'insertion des donnees dans la base de donnees
+	 * - > limite varchar depassee
+	 */
+	public static final int DEPASSEMENT_VARCHAR_LIMIT = 10017;
+	
+	
 	
 	
 	

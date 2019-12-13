@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="fr.eni.projetweb.messages.LecteurMessage" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,108 +43,143 @@
 .input100 {
 	height: 40px;
 }
-
-.bouton {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	text-align: center;
-	margin: auto;
+.bouton{
+		display : inline;
+		margin-left: 20px;
+		padding: 13px 33px 13px 33px;
+		border-radius: 25px;
+	}
+.boutons{
+	margin-top: 50px;
 }
+
+.row{
+	margin-bottom: 10px;
+}
+.wrap-login100{
+	width : 700px;
+}
+.container-login100{
+	align-items: flex-start;
+	}
+	
+
 </style>
 <body>
-	<div class="limiter">
+
+<div class="topnav">
+	
+		<%
+			if (session.getAttribute("idUtilisateur") != null) {
+		%>
+			<a class="active" href="<%=request.getContextPath()%>/ServletAccueilConnecte">ENI Enchères</a> 
+			<a href="<%=request.getContextPath()%>/ServletAccueilConnecte">Accueil</a>
+			<a href="<%=request.getContextPath()%>/ServletAfficherProfilVendeur?id=<%=session.getAttribute("idUtilisateur")%>">Mon profil</a>
+		<%
+			} else {
+		%>
+			<a class="active" href="<%=request.getContextPath()%>/ServletAccueil">ENI Enchères</a> 
+			<a href="<%=request.getContextPath()%>/ServletAccueil">Accueil</a>
+		<%
+			}
+		%>
+	</div>
+
+<div class="limiter">
 		<div class="container-login100">
-			<div class="container bootstrap snippet"
-				style="background-color: #fff">
-				<div class="p-l-85 p-r-85 p-t-55 p-b-55">
+			<div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+
+				
+					<span class="login100-form-title"> Mon Profil </span> 
+					<hr>
+				
+					<div class="row">
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<span class="txt1 p-b-11">Pseudo :</span></div>
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">${user.pseudo}</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<span class="txt1 p-b-11">Nom :</span></div>
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">${user.nom}</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<span class="txt1 p-b-11">Prénom :</span></div>
+
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">${user.prenom}</div>
+					</div>		
+					
+					<div class="row">
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<span class="txt1 p-b-11">Prénom :</span></div>
+
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">${user.prenom}</div>
+					</div>					
+					
+					<div class="row">
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<span class="txt1 p-b-11">E-mail :</span></div>
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">${user.email}</div>
+					</div>	
+					
+					<div class="row">
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<span class="txt1 p-b-11">Téléphone :</span></div>
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">${user.telephone}</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<span class="txt1 p-b-11">Rue :</span></div>
+
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">${user.rue}</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<span class="txt1 p-b-11">Code postal :</span></div>
+
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">${user.codePostal}</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<span class="txt1 p-b-11">Ville :</span></div>
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">${user.ville}</div>
+					</div>
 
 					<div class="row">
-						<div class="col-sm-12">
-							<h1>
-								<span class="login100-form-title">Mon Profil </span>
-							</h1>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<span class="txt1 p-b-11">Crédits :</span></div>
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">${user.credit}</div>
+					</div>				
+
+					
+					<div class="row boutons" >
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 25px; text-align: center;">
+							<a class="login100-form-btn bouton" href="<%=request.getContextPath()%>/ServletModifierProfil"> 
+										Modifier</a>
+						</div>
+					
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 25px; text-align: center;">
+							<a class="login100-form-btn bouton" href="<%=request.getContextPath()%>/ServletAccueilConnecte"> 
+										Retour</a>	
 						</div>
 					</div>
-					<hr>
-
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<label for="pseudo"><span class="txt1 p-b-11">Pseudo
-								: ${user.pseudo}</span></label>
-
-					</div>
-
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<label for="nom"><span class="txt1 p-b-11">Nom :
-								${user.nom}</span></label>
-
-					</div>
-
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<label for="prenom"><span class="txt1 p-b-11">Prénom
-								: ${user.prenom}</span></label>
-
-					</div>
-
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<label for="email"><span class="txt1 p-b-11">E-mail
-								: ${user.email}</span></label>
-
-					</div>
-
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<label for="telephone"><span class="txt1 p-b-11">
-								Téléphone : ${user.telephone}</span></label>
-
-					</div>
-
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<label for="rue"><span class="txt1 p-b-11"> Rue :
-								${user.rue}</span></label>
-
-					</div>
-
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<label for="codepostal"><span class="txt1 p-b-11">Code
-								postal : ${user.codePostal}</span></label>
-
-					</div>
-
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<label for="ville"><span class="txt1 p-b-11">Ville
-								: ${user.ville}</span></label>
-
-					</div>
 					
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<label for="ville"><span class="txt1 p-b-11">Crédits
-								: ${user.credit}</span></label>
-
-					</div>
-
-				
-					
-				
-					<div class="row" >
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="row">
-							<a class="login100-form-btn bouton"
-								href="<%=request.getContextPath()%>/ServletModifierProfil">
-								Modifier </a>
-						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<div class="row">
-							<a class="login100-form-btn bouton"
-								href="<%=request.getContextPath()%>/ServletAccueilConnecte">
-								Retour </a>
-						</div>
-					</div>
-					</div>
-					
-					
-			
-				</div>
 			</div>
 		</div>
 	</div>

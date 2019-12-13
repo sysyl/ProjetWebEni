@@ -28,5 +28,7 @@ public interface UtilisateurDAO {
 
 	public List<String> selectEmailsExceptUserId(int numeroUtilisateur) throws BusinessException;
 	
+	public void updateCreditUtilisateur(int credit, int idUtilisateur) throws BusinessException;
+	
 
 }

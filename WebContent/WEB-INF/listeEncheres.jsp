@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	<%@ page import="fr.eni.projetweb.messages.LecteurMessage"%>
+<%@ page import="fr.eni.projetweb.messages.LecteurMessage"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="fr.eni.projetweb.bo.Categorie"%>
 <%@page import="fr.eni.projetweb.bo.Article"%>
 <%@page import="fr.eni.projetweb.bo.Utilisateur"%>
 <%@page import="java.util.List"%>
+<%@page import="fr.eni.projetweb.bll.MethodesUtiles"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,11 +44,19 @@
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
 </head>
-
+<style>
+.center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+</style>
 <body>
 
-<div class="topnav">
+	<div class="topnav">
 		<a class="active" href="#">ENI Enchères - Bonjour <%=request.getSession().getAttribute("pseudo")%></a>
+		<a href="<%=request.getContextPath()%>/ServletAccueilConnecte">Accueil</a>
 		<a href="<%=request.getContextPath()%>/ServletVendre">Vendre un
 			article</a> <a href="<%=request.getContextPath()%>/ServletProfil">Mon
 			profil</a> <a href="<%=request.getContextPath()%>/ServletAccueil">Déconnexion</a>
@@ -57,46 +68,12 @@
 			Liste des enchères </span>
 
 		<div class="row">
-			<div class="col-md-6">
-			<div class="wrap-home100 p-l-85 p-r-85 p-t-55 p-b-55">
-			
-				<form method="post" action="/ProjetWebENI/ServletAccueilConnecte"
-						class="login100-form validate-form flex-sb flex-w">
-						<span class="login100-form-title p-b-32"> Filtres : </span>
-						<div class="wrap-input100 validate-input m-b-36">
-							<i class="fa fa-search" aria-hidden="true"></i> <input
-								maxlength="50" type="search" name="search"
-								placeholder="Nom de l'article">
-						</div>
-
-						<div class="flex-sb-m w-full p-b-48">
-							<p>Catégorie :</p>
-							<span class="btn-show-pass"></span> <select name="categorie"
-								onChange="combo(this, 'theinput')"
-								style="margin-left: 15px; margin-bottom: 25px; width: 150px;">
-								<option value="toutes">Toutes</option>
-								<c:if test="${!empty listCategories}">
-									<c:forEach var="c" items="${listCategories}">
-										<option value="${c.noCategorie}">${c.libelle}</option>
-									</c:forEach>
-								</c:if>
-							</select> <span class="focus-input100"></span>
-						</div>
-
-					<div class="container-login100-form-btn">
-							<button type="submit" class="btn btn-success">Rechercher</button>
-						</div>
-
-				</form>
-			</div>
-		</div>
-		
-		<div class="col-md-6">
+			<div class="col-md-12">
 
 
 				<%
+					List<Categorie> listeCategorie = (List<Categorie>) session.getAttribute("listeCategorie");
 					List<Article> listeArticle = (List<Article>) session.getAttribute("listeArticle");
-					List<String> listePseudoUtilisateurs = (List<String>) session.getAttribute("listePseudo");
 				%>
 
 				<div class="container-fluid">
@@ -107,20 +84,43 @@
 						%>
 
 
-						<div class="col-md-4">
+						<div class="col-md-2">
 							<div class="card">
 								<div class="card-body">
-									<h5 class="card-title"><%=article.getNomArticle()%></h5>
+									<div class="center">
+										<%
+											if (article.getPathImg() != null) {
+										%>
+										<img style="border-radius: 30px" src=<%=article.getPathImg()%>
+											height=150 width=150 border="0">
+										<%
+											} else {
+										%>
+										<img style="border-radius: 30px"
+											src="images/img_manquante.png" height=150 width=150
+											border="0">
+										<%
+											}
+										%>
+									</div>
+									<div class="row center">
+										<h5 class="card-title" style=""><%=article.getNomArticle()%></h5>
+									</div>
 									<p class="card-text">
-										Prix:<%=article.getPrixVente()%></p>
-									<p class="card-text">
-										Fin de l'enchère:<%=article.getFinEncheres()%></p>
-									<p class="card-text">
-										Vendeur:<a
-											href="<%=request.getContextPath()%>/ServletAfficheUser?id=<%=listeArticle.get(i).getNoUtilisateur()%>"
-											name="<%=listePseudoUtilisateurs.get(i)%>"><%=listePseudoUtilisateurs.get(i)%></a>
+										Prix :
+										<%=article.getPrixVente()%>
+										point(s)
 									</p>
-									<a href="#" class="btn btn-success">Voir l'enchère</a>
+									<p class="card-text">
+										Fin de l'enchère : <br><%=MethodesUtiles.getStringDateFromTimestamp(article.getFinEncheres())%></p>
+									<p class="card-text">
+										Vendeur : <a
+											href="<%=request.getContextPath()%>/ServletAfficherProfilVendeur?id=<%=article.getUtilisateur().getNoUtilisateur()%>"
+											name="<%=article.getUtilisateur().getPseudo()%>"><%=article.getUtilisateur().getPseudo()%></a>
+									</p>
+									<a
+										href="<%=request.getContextPath()%>/ServletAfficherVente?id=<%=article.getNoArticle()%>"
+										class="btn btn-success">Voir l'enchère</a>
 								</div>
 							</div>
 						</div>

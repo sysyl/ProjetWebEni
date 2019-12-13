@@ -2,7 +2,7 @@
     <wb-module deploy-name="ProjetWebENI">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="ProjetWebENI"/>
         <property name="java-output-path" value="/ProjetWebENI/build/classes"/>
+        <property name="context-root" value="ProjetWebENI"/>
     </wb-module>
 </project-modules>

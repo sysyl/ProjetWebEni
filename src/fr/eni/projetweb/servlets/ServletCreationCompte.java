@@ -42,7 +42,9 @@ public class ServletCreationCompte extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		List<Integer> listeCodesErreur=new ArrayList<>();	
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		
 		String pseudo = request.getParameter("pseudo").trim();
 		String nom = request.getParameter("nom").trim();
 		String prenom = request.getParameter("prenom").trim();
@@ -58,21 +60,12 @@ public class ServletCreationCompte extends HttpServlet {
 	
 		try {
 			manager.ajouterUtilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, confirmation);
-			
-	//		int idUtilisateur = (int) request.getSession().getAttribute("idUtilisateur"); 
-			//System.out.println("idUtilisateur servlet creation compte : "+idUtilisateur);
 			response.sendRedirect("/ProjetWebENI/connexion");
 			
 		} catch (BusinessException e) {
-			System.out.println("erreur");
-			for(int l : listeCodesErreur) {
-				System.out.println(l);
-			}
-			System.out.println(e.getListeCodesErreur());
 			request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/creationCompte.jsp");
 			rd.forward(request, response);
-			//e.printStackTrace();
 		}
 		
 		

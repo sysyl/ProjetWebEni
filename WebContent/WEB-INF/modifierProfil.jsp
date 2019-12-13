@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="fr.eni.projetweb.messages.LecteurMessage" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +42,7 @@
 </head>
 <style>
 	.input100{
-		height: 40px;
+		height: 30px;
 	}
 	
 	.bouton {
@@ -50,19 +51,36 @@
 	  	justify-content: center;
 	  	text-align: center;
 	  	margin: auto;
+	  	margin-left: 20px;
+	}
+	.boutons{
+		margin-top: 50px;
 	}	
+		
+	.wrap-login100{
+		margin-top: 20px;
+		width: 992px;
+	}
+	.wrap-input100{
+		margin-bottom: 15px;
+	}
 </style>
 <body>   <!-- col-xs-12 .col-sm-6 col-md-6 .col-lg-8 -->
-		
-<div class="limiter">				
-	<div class="container-login100">
-		<div class="container bootstrap snippet" style="background-color: #fff">
-		  <div class="p-l-85 p-r-85 p-t-55 p-b-55"> 
+
+<div class="topnav">
+  		<a class="active" href="<%=request.getContextPath()%>/ServletAccueilConnecte">ENI Enchères</a>
+  		<a href="<%=request.getContextPath()%>/ServletAccueilConnecte">Accueil</a>
+	</div>
+
+<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+						
 						
 				<div class="row">
 					<div class="col-sm-12">
 						<h1>
-							<span class="login100-form-title">Modifier mon Profil </span>
+							<span class="login100-form-title">Modifier mon profil </span>
 						</h1>
 					</div>
 				</div>
@@ -84,137 +102,163 @@
 				</div>
 			
 				<form class="form" action="<%=request.getContextPath()%>/ServletModifierProfil" method="post">
+				
+					<div class="row">
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<label for="pseudo"><span class="txt1 p-b-11">Pseudo :</span></label>
+							<div class="wrap-input100">
+								<input class="input100" type="text" name="pseudo" id="pseudo" required 
+									 value="${user.pseudo}">
+								<span class="focus-input100"></span>
+							</div>
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<label for="nom"><span class="txt1 p-b-11">Nom :</span></label>
+							<div class="wrap-input100">
+								<input type="text" class=" input100 form-control" name="nom" id="nom"  required 
+										 value="${user.nom}"> 
+								<span class="focus-input100"></span>
+							</div>
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+					</div>
+					
+					
+					<div class="row">	
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<label for="prenom"><span class="txt1 p-b-11">Prénom :</span></label>
+							<div class="wrap-input100">
+								<input class="input100" type="text" name="prenom" id="prenom"  required
+								 value="${user.prenom}">
+								<span class="focus-input100"></span>
+							</div>
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+				
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<label for="email"><span class="txt1 p-b-11">E-mail :</span></label>
+							<div class="wrap-input100">
+								<input class="input100" type="email" name="email" id="email"  required
+								 value="${user.email}">
+								<span class="focus-input100"></span>
+							</div>
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+					</div>
+					
+					
+					<div class="row">	
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<label for="telephone"><span class="txt1 p-b-11"> Téléphone (format: 0708985421) :</span></label>
+							<div class="wrap-input100">
+								<input class="input100" type="tel" name="telephone" id="telephone"
+								value="${user.telephone}">
+								<span class="focus-input100"></span>
+							</div>
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+					
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<label for="rue"><span class="txt1 p-b-11"> Rue :</span></label>
+							<div class="wrap-input100 ">
+								<input class="input100" type="text" name="rue" id="rue" required
+										value="${user.rue}">
+								<span class="focus-input100"></span>
+							</div>
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+					</div>
+					
+					
+					<div class="row">	
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<label for="codepostal"><span class="txt1 p-b-11">Code postal (format : 44000) :</span></label>
+								<div class="wrap-input100">
+									<input class="input100" type="text" name="codepostal" id="codepostal" required
+											 value="${user.codePostal}">
+									<span class="focus-input100"></span>
+								</div>
+							</div>
+							<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+		
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<label for="ville"><span class="txt1 p-b-11">Ville : </span></label>
+								<div class="wrap-input100">
+									<input class="input100" type="text" name="ville" id="ville" required
+										 value="${user.ville}">
+									<span class="focus-input100"></span>
+								</div>
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+					</div>
+					
+					
 					
 					<div class="row">
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="pseudo"><span class="txt1 p-b-11">Pseudo :</span></label>
-							<div class="wrap-input100 validate-input m-b-36" data-validate="Pseudo est requis">
-								<input class="input100" type="text" name="pseudo" id="pseudo" required 
-									  	value="<%=request.getParameter("pseudo")!=null?request.getParameter("nom"):""%>">
-								<span class="focus-input100"></span>
-							</div>
-						</div>
-						
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="nom"><span class="txt1 p-b-11">Nom :</span></label>
-							<div class="wrap-input100 validate-input m-b-36" data-validate="Nom est requis">
-								<input type="text" class=" input100 form-control" name="nom" id="nom"  required 
-										value="<%=request.getParameter("nom")!=null?request.getParameter("nom"):""%>"> 
-								<span class="focus-input100"></span>
-							</div>
-						</div>
-					</div>
-					
-					
-					<div class="row">	
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="prenom"><span class="txt1 p-b-11">Prénom :</span></label>
-							<div class="wrap-input100 validate-input m-b-36" data-validate="Prenom est requis">
-								<input class="input100" type="text" name="prenom" id="prenom"  required
-								value="<%=request.getParameter("prenom")!=null?request.getParameter("prenom"):""%>">
-								<span class="focus-input100"></span>
-							</div>
-						</div>
-				
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="email"><span class="txt1 p-b-11">E-mail :</span></label>
-							<div class="wrap-input100 validate-input m-b-36" data-validate="Email est requis">
-								<input class="input100" type="email" name="email" id="email"  required
-								value="<%=request.getParameter("email")!=null?request.getParameter("email"):""%>">
-								<span class="focus-input100"></span>
-							</div>
-						</div>
-					</div>
-					
-					
-					<div class="row">	
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="telephone"><span class="txt1 p-b-11"> Téléphone :</span></label>
-							<div class="wrap-input100 validate-input m-b-36">
-								<input class="input100" type="tel" name="telephone" id="telephone"
-								value="<%=request.getParameter("telephone")!=null?request.getParameter("telephone"):""%>">
-								<span class="focus-input100"></span>
-							</div>
-						</div>
-					
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="rue"><span class="txt1 p-b-11"> Rue :</span></label>
-							<div class="wrap-input100 validate-input m-b-36" data-validate="Le nom de la rue est requis">
-								<input class="input100" type="text" name="rue" id="rue" required
-										value="<%=request.getParameter("rue")!=null?request.getParameter("rue"):""%>">
-								<span class="focus-input100"></span>
-							</div>
-						</div>
-					</div>
-					
-					
-					<div class="row">	
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="codepostal"><span class="txt1 p-b-11">Code postal :</span></label>
-								<div class="wrap-input100 validate-input m-b-36"
-									data-validate="Code postal est requis">
-									<input class="input100" type="text" name="codepostal" id="codepostal" required
-											value="<%=request.getParameter("codepostal")!=null?request.getParameter("codepostal"):""%>">
-									<span class="focus-input100"></span>
-								</div>
-							</div>
-		
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<label for="ville"><span class="txt1 p-b-11">Ville : </span></label>
-								<div class="wrap-input100 validate-input m-b-36" data-validate="Le nom de la ville est requis" >
-									<input class="input100" type="text" name="ville" id="ville" required
-										value="<%=request.getParameter("ville")!=null?request.getParameter("ville"):""%>">
-									<span class="focus-input100"></span>
-								</div>
-						</div>
-					</div>
-					
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
 							<label for="currentpassword"><span class="txt1 p-b-11">Mot de passe actuel :</span></label>
-								<div class="wrap-input100 validate-input m-b-36" data-validate="Le mot de passe est requis">
+								<div class="wrap-input100">
 									<input class="input100" type="password" name="currentpassword" id="currentpassword" required>
 									<span class="focus-input100"></span>
 								</div>
 						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"></div>
+					
+					</div>
 					
 					
 					<div class="row">	
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
 							<label for="password"><span class="txt1 p-b-11">Nouveau mot de passe :</span></label>
 								<div class="wrap-input100 validate-input m-b-36" data-validate="Le mot de passe est requis">
 									<input class="input100" type="password" name="password" id="password" required>
 									<span class="focus-input100"></span>
 								</div>
 						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
 
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
 							<label for="confirmation"><span class="txt1 p-b-11"> Confirmation :</span></label>
 							<div class="wrap-input100 validate-input m-b-36" data-validate="Confirmez le mot de passe">
 								<input class="input100" type="password" name="confirmation" id="confirmation"  required>
 								<span class="focus-input100"></span>
 							</div>
-						</div>	
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>	
 					</div>
 					
-					<div class="row" >	
+					<div class="row boutons" >	
 						<div class="flex-sb-m w-full p-b-48" >
-							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 								<input type="submit" class="login100-form-btn bouton" value="Enregistrer">
-							</div>		
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">			
+							</div>	
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>	
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">			
 							<div class="row">
 								<a class="login100-form-btn bouton" href="<%=request.getContextPath()%>/supprimer"> 
-								Supprimer mon compte
+								Supprimer
 								</a>
 							</div>
 						</div>
-						</div>		
-					</div>						  
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>	
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">			
+							<div class="row">
+								<a class="login100-form-btn bouton" href="<%=request.getContextPath()%>/ServletProfil"> 
+								Retour
+								</a>
+							</div>
+						</div>
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
+						
+						
+						</div>	
+							
+					</div>					  
 				</form>
-		
-				
-				
-				
 			</div>
 		</div>
 	
@@ -222,7 +266,7 @@
 </div>
 
 
-	</div>
+
 	<!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<!--===============================================================================================-->

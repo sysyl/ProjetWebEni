@@ -66,12 +66,79 @@ public abstract class CodesResultatBLL {
 	 */
 	public static final int REGLE_RECUPERATION_BDD_ERREUR = 20010;
 	/*
-	 * Les données saisies ne peuvent pas être enregistrées dans la base de données.
+	 * Les donnï¿½es saisies ne peuvent pas ï¿½tre enregistrï¿½es dans la base de donnï¿½es.
 	 */
 	public static final int ERREUR_INSERTION = 20014;
 	/*
 	 * Echec le champ est vide -> contraite NOT NULL dans la bdd
 	 */
 	public static final int REGLE_CHAMP_VIDE_ERREUR = 20015;
+
+	/*
+	 * La date de fin d'enchere renseignee est avant son debut...
+	 */
+	public static final int REGLE_PERIODE_ENCHERE_ERREUR = 20016;
+	/*
+	 * Le debut et/ou la fin de l'enchere ne peuvent pas avoir lieu avant le moment present
+	 */
+	public static final int REGLE_DATE_ENCHERE_INVALIDE = 20017;
+	/*
+	 * Numero de telephone inferieur a 10 chiffres
+	 */
+	public static final int REGLE_TELEPHONE_TROPCOURT_ERREUR = 20018;
+	/*
+	 * Numero de telephone superieur a 13 chiffres
+	 */
+	public static final int REGLE_TELEPHONE_TROPLONG_ERREUR = 20019;
+	/*
+	 * Numero de telephone contient autres characteres que les chiffres
+	 */
+	public static final int REGLE_TELEPHONE_CHIFFRES_ERREUR = 20020;
+	/*
+	 * Echec lors de la finalisation d'enchere : credit utilisateur 
+	 * ne peut pas etre negatif
+	 */
+	public static final int UTILISATEUR_CREDIT_NEGATIF_ERREUR = 20021;
+	/*
+	 * Pas possbile d'encherir sur un objet pour le meme montant
+	 */
+	public static final int MEME_MONTANT_ENCHERE_ERREUR = 20022;
+	/*
+	 * Pas possible d'encherir pour un montant inferieur a la personne precedente
+	 */
+	public static final int ENCHERE_INFERIEURE_ERREUR = 20023;
+
+	/*
+	 * Utilisateur ne peut pas etre supprime car il a des encheres en cours
+	 * ou les retraits pas effectues
+	 */
+	public static final int REGLE_SUPPRESSION_UTILISATEUR_ERREUR = 20024;
+	
+	/*
+	 * l'URL de l'image que le vendeur veut inserer est trop long et depasse
+	 * les limites du varchar fixees dans la bdd
+	 */
+	public static final int LIEN_IMAGE_TROP_LONG = 20025;
+
+	/*
+	 * La proposition d'enchere faite par l'acheteur est inferieure 
+	 * au prix initial fixe pour l'article
+	 */
+	public static final int PROPOSITION_MONTANT_ENCHERE_ERREUR = 20026;
+
+	/*
+	 * Le text rentre dans le formulaire est plus long que 
+	 * limite 30 caracs de la bdd
+	 */
+	public static final int CHAMP_TEXT_30_TROP_LONG = 20027;
+	/**
+	 * Description d'article trop longue -> limit 300
+	 */
+	public static final int DESCRIPTION_TROP_LONGUE = 20028;
+
+	/*
+	 * Nom d'article depasse le max de caracteres dans la bdd
+	 */
+	public static final int NOM_ARTICLE_TROP_LONG = 20029;
 	
 }

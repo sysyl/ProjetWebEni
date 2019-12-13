@@ -76,7 +76,9 @@ public class ServletConnexion extends HttpServlet {
 
 			else {
 				System.out.println("Echec connexion");
-				response.sendRedirect("/ProjetWebENI/connexion");
+				request.setAttribute("loginError", true);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/pageConnexion.jsp");
+				rd.forward(request, response);			
 			}
 		}
 

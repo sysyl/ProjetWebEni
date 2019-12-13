@@ -5,8 +5,16 @@ package fr.eni.projetweb.bll;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.List;
 
+import fr.eni.projetweb.dal.CodesResultatDAL;
 import fr.eni.projetweb.dal.DAOFactory;
 import fr.eni.projetweb.dal.UtilisateurDAO;
 import fr.eni.projetweb.exceptions.BusinessException;
@@ -29,9 +37,37 @@ public class MethodesUtiles {
 		int nombre = Integer.parseInt(string);
 		return nombre;
 	}
+
+	public static Timestamp getTimestampFromString(String dateTimeString) throws BusinessException {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+		LocalDateTime ldt = null;
+		try {
+			ldt = LocalDateTime.parse(dateTimeString, formatter);
+		}catch(DateTimeParseException e) {
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.PARSE_DATE_ERREUR);
+			throw businessException;
+		}
+		Timestamp ts = Timestamp.valueOf(ldt);
+		return ts;
+	}
+	
+	public static String getStringDateFromTimestamp(Timestamp ts) {
+		Date date1 = new Date(ts.getTime());
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy 'à' HH:mm");  
+        String strDate = dateFormat.format(date1);  
+        return strDate;
+	}
+	
+	public static String getStringDateFromTimestampForFormInputDefaultValue(Timestamp ts) {
+		Date date1 = new Date(ts.getTime());
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");  
+        String strDate = dateFormat.format(date1);  
+        return strDate;
+	}
 	
 	/**
-	 * Méthode en charge de verifier si le string passe
+	 * Methode en charge de verifier si le string passe
 	 * en param est vide ou pas
 	 * @param String string
 	 * @param businessException
@@ -85,63 +121,14 @@ public class MethodesUtiles {
 		return codePostal;
 	}
 	
-	/**
-	 * Methode en charge de verifier si le pseudo renseigne
-	 * n'existe pas deja dans la bdd
-	 * @param pseudo
-	 * @param businessException 
-	 */
-	public static void verifierPseudo(String pseudo, BusinessException businessException) {
+	
 		
-		UtilisateurDAO daoUtilisateur = DAOFactory.getUtilisateurDAO();
-		// pour verifier si pseudo est une chaine alphanumerique
-		String  pattern = "^[a-zA-Z0-9]*$";  	
+	
+		
 
-		if (pseudo == null || pseudo.trim().length() == 0) {
-			businessException.ajouterErreur(CodesResultatBLL.REGLE_PSEUDO_NOM_ERREUR);		
-		}
-		else if(!pseudo.matches(pattern)){
-			businessException.ajouterErreur(CodesResultatBLL.REGLE_PSEUDO_ALPHANUMERIQUE_ERREUR);		
-		}
-		
-		try {
-			List<String> pseudos = daoUtilisateur.selectPseudos(pseudo);
-			if(pseudos.contains(pseudo)) {
-				businessException.ajouterErreur(CodesResultatBLL.REGLE_PSEUDO_DUPLICATION_ERREUR);
-			}
-		} catch (BusinessException e) {
-			businessException.ajouterErreur(CodesResultatBLL.REGLE_RECUPERATION_BDD_ERREUR);
-		}
-	
-	}
 	
 	/**
-	 * Methode en charge de verifier si 
-	 * l'email renseigne n'existe pas deja dans la bdd
-	 * @param email
-	 * @param businessException 
-	 */
-	public static void verifierEmail(String email, BusinessException businessException) {
-		
-		UtilisateurDAO daoUtilisateur = DAOFactory.getUtilisateurDAO();
-		
-		if (email == null || email.trim().length() == 0) {
-			businessException.ajouterErreur(CodesResultatBLL.REGLE_EMAIL_NOM_ERREUR);		
-		}
-		try {
-			List<String> emails = daoUtilisateur.selectEmails(email);
-			
-			if(emails.contains(email)) {
-				businessException.ajouterErreur(CodesResultatBLL.REGLE_EMAIL_DUPLICATION_ERREUR);
-			}
-			
-		} catch (BusinessException e) {
-			businessException.ajouterErreur(CodesResultatBLL.REGLE_RECUPERATION_BDD_ERREUR);
-		}
-	}
-	
-	/**
-	 * methode qui hash le mot de passe passe en parametre
+	 * methode qui hashe le mot de passe passe en parametre
 	 * 
 	 * @param passwordToHash
 	 * @return String mot de passe hashe
@@ -201,5 +188,64 @@ public class MethodesUtiles {
 		}
 		return generatedPassword;
 	}
+
+	/**
+	 * Methode qui verifie les champs date rensegines par l'utilisateur.
+	 * Exception levee quand :
+	 *   -la fin d'enchere a lieu avant son debut  
+	 *   -le debut ou fin enchere ont lieu avant le moment present
+	 *   une  est levee 
+	 * @param dateDebut, dateFin, businessException
+	 */
+	public static void validerDatesEnchere(Timestamp dateDebut, Timestamp dateFin,
+			BusinessException businessException) {
+		
+		if(dateDebut.after(dateFin) || dateDebut.equals(dateFin)) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_PERIODE_ENCHERE_ERREUR);	
+		}
+		else if(dateDebut.before(new Timestamp(System.currentTimeMillis())) || dateFin.before(new Timestamp(System.currentTimeMillis()))) {
+			businessException.ajouterErreur(CodesResultatBLL.REGLE_DATE_ENCHERE_INVALIDE);
+		}
+		
+		
+	}
+	
+	
+	public static String statutRetraitString(boolean statut) {
+			String statutString = null;
+			if(statut) {
+				statutString = "retrait effectué";
+			}
+			else {
+				statutString = "article non retiré";
+			}
+			
+			return statutString;
+		}
+
+	public static void verifierLienImage(String lienImage, BusinessException businessException) {
+		
+		if(lienImage.trim().length()!= 0 || lienImage != null) {
+			if(lienImage.length() > 300) {
+				businessException.ajouterErreur(CodesResultatBLL.LIEN_IMAGE_TROP_LONG);
+			}
+		}
+		
+		
+	}
+
+	/**
+	 * Méthode en charge de verifier si un champ text ne depasse pas
+	 * la longueur max de la bdd
+	 * @param string
+	 * @param businessException
+	 */
+	public static void verifierLimiteChaine30(String string, BusinessException businessException) {
+		if(string.length() >30) {
+			businessException.ajouterErreur(CodesResultatBLL.CHAMP_TEXT_30_TROP_LONG);
+		}
+		
+	}
+		
 
 }

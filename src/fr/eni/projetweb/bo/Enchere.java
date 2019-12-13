@@ -3,19 +3,20 @@
  */
 package fr.eni.projetweb.bo;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * Classe en charge de 
  * @version Projet 1 - V1.0
  * @author euznansk2019
- * @date 2 déc. 2019 - 14:33:50
+ * @date 2 dï¿½c. 2019 - 14:33:50
  *
  */
-public class Enchere {
+public class Enchere implements Comparable<Enchere>{
 	
 	private Utilisateur utilisateur;
-	private Date dateEnchere;
+	private Timestamp dateEnchere;
+	private Article article;
 	private int montantEnchere;
 	
 	public Enchere() {
@@ -28,11 +29,12 @@ public class Enchere {
 	 * @param dateEnchere
 	 * @param montantEnchere
 	 */
-	public Enchere(Utilisateur utilisateur, Date dateEnchere, int montantEnchere) {
+	public Enchere(Utilisateur utilisateur, Timestamp dateEnchere, Article article, int montantEnchere) {
 		super();
 		this.utilisateur = utilisateur;
 		this.dateEnchere = dateEnchere;
 		this.montantEnchere = montantEnchere;
+		this.article = article;
 	}
 
 	/**
@@ -51,11 +53,14 @@ public class Enchere {
 		this.utilisateur = utilisateur;
 	}
 
+	
+
+
 	/**
 	 * Getter pour dateEnchere.
 	 * @return the dateEnchere
 	 */
-	public Date getDateEnchere() {
+	public Timestamp getDateEnchere() {
 		return dateEnchere;
 	}
 
@@ -63,7 +68,7 @@ public class Enchere {
 	 * Setter pour dateEnchere.
 	 * @param dateEnchere the dateEnchere to set
 	 */
-	public void setDateEnchere(Date dateEnchere) {
+	public void setDateEnchere(Timestamp dateEnchere) {
 		this.dateEnchere = dateEnchere;
 	}
 
@@ -83,6 +88,25 @@ public class Enchere {
 		this.montantEnchere = montantEnchere;
 	}
 
+	
+	
+	
+	/**
+	 * Getter pour article.
+	 * @return the article
+	 */
+	public Article getArticle() {
+		return article;
+	}
+
+	/**
+	 * Setter pour article.
+	 * @param article the article to set
+	 */
+	public void setArticle(Article article) {
+		this.article = article;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see java.lang.Object#toString()
@@ -91,6 +115,26 @@ public class Enchere {
 	public String toString() {
 		return "Enchere [utilisateur=" + utilisateur + ", dateEnchere=" + dateEnchere + ", montantEnchere="
 				+ montantEnchere + "]";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Enchere e) {
+		
+		
+		
+		  if(this.getDateEnchere().after(e.getDateEnchere())) {
+			  return 1; 
+		  }
+		  if(this.getDateEnchere().after(e.getDateEnchere())) {
+			  return -1;
+		  }
+		  else                  
+			  return 0;
+		
 	}
 
 	

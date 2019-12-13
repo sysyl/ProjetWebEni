@@ -39,10 +39,10 @@
 </head>
 <body>
 
-<div class="topnav">
-  <a class="active" href="<%=request.getContextPath()%>/ServletAccueil">ENI Enchères</a>
-  <a href="<%=request.getContextPath()%>/ServletAccueil">Accueil</a>
-</div>
+	<div class="topnav">
+		<a class="active" href="<%=request.getContextPath()%>/ServletAccueil">ENI
+			Enchères</a> <a href="<%=request.getContextPath()%>/ServletAccueil">Accueil</a>
+	</div>
 
 	<div class="limiter">
 		<div class="container-login100">
@@ -82,7 +82,7 @@
 						<div class="container-login100-form-btn">
 							<button type="submit" class="login100-form-btn">Connexion</button>
 						</div>
-						<div class="container-login100-create-btn">					
+						<div class="container-login100-create-btn">
 							<button id="newAccount" class="login100-create-btn">Créer
 								un compte</button>
 							<script type="text/javascript">
@@ -93,7 +93,15 @@
 
 						</div>
 					</div>
-
+					<%
+						if (request.getAttribute("loginError") != null) {
+					%>
+					<div id="alert" class="alert alert-danger" role="alert">
+						<strong>Login ou mot de passe erroné !</strong>
+					</div>
+					<%
+						}
+					%>
 				</form>
 			</div>
 		</div>
